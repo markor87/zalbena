@@ -241,30 +241,30 @@
         <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
           <div class="p-6 border-b border-gray-200">
             <h3 class="text-2xl font-bold text-gray-800">
-              {{ modalMode === 'create' ? 'Dodaj novu žalbu' : 'Izmeni žalbu' }}
+              {{ modalMode === 'create' ? 'Додај нову жалбу' : 'Измени жалбу' }}
             </h3>
           </div>
 
           <form @submit.prevent="submitForm" class="p-6 space-y-6">
-            <!-- SEKCIJA 1: Osnovni podaci žalbe -->
+            <!-- SEKCIJA 1: Основни подаци жалбе -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h4 class="text-lg font-semibold text-gray-800 mb-4">Osnovni podaci žalbe</h4>
+              <h4 class="text-lg font-semibold text-gray-800 mb-4">Основни подаци жалбе</h4>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Podnosilac žalbe *</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Подносилац жалбе *</label>
                   <v-select
                     v-model="form.podnosioci_zalbe"
                     :options="podnosioci"
                     :reduce="p => p.id"
                     :get-option-label="p => `${p.ime_podnosioca_zalbe} ${p.prezime_podnosioca_zalbe}`"
                     @search="searchPodnosioci"
-                    placeholder="Izaberite podnosioca"
+                    placeholder="Изаберите подносиоца"
                     class="vue-select-custom"
                   />
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Prijemni broj *</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Пријемни број *</label>
                   <input
                     v-model="form.prijemni_broj"
                     type="text"
@@ -274,7 +274,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Datum prijema žalbe *</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Датум пријема жалбе *</label>
                   <VueDatePicker
                     v-model="form.datum_prijema_zalbe"
                     format="dd.MM.yyyy"
@@ -287,7 +287,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Broj rešenja</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Број решења</label>
                   <input
                     v-model="form.broj_resenja"
                     type="text"
@@ -296,19 +296,19 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Osnov žalbe</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Основ жалбе</label>
                   <v-select
                     v-model="form.osnov_zalbe"
                     :options="osnoviZalbe"
                     :reduce="o => o.id"
                     label="osnov_zalbe"
-                    placeholder="Izaberite osnov"
+                    placeholder="Изаберите основ"
                     class="vue-select-custom"
                   />
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Datum vraćanja na dopunu</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Датум враћања на допуну</label>
                   <VueDatePicker
                     v-model="form.datum_vracanja_na_dopunu"
                     format="dd.MM.yyyy"
@@ -569,7 +569,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Broj rešenja ZK po presudi US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Број решења ZK po presudi US</label>
                     <input
                       v-model="form.broj_resenja_zk_po_presudi_us"
                       type="text"
@@ -608,13 +608,13 @@
                 @click="closeModal"
                 class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 type="submit"
                 class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900"
               >
-                {{ modalMode === 'create' ? 'Dodaj' : 'Sačuvaj' }}
+                {{ modalMode === 'create' ? 'Додај' : 'Сачувај' }}
               </button>
             </div>
           </form>
@@ -653,15 +653,15 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   >
                     <option value="">Izaberite polje</option>
-                    <option value="prijemni_broj">Prijemni broj</option>
-                    <option value="broj_resenja">Broj rešenja</option>
-                    <option value="podnosioci_zalbe">Podnosilac žalbe</option>
+                    <option value="prijemni_broj">Пријемни број</option>
+                    <option value="broj_resenja">Број решења</option>
+                    <option value="podnosioci_zalbe">Подносилац жалбе</option>
                     <option value="institucija">Institucija</option>
-                    <option value="datum_prijema_zalbe">Datum prijema žalbe</option>
-                    <option value="datum_vracanja_na_dopunu">Datum vraćanja na dopunu</option>
+                    <option value="datum_prijema_zalbe">Датум пријема жалбе</option>
+                    <option value="datum_vracanja_na_dopunu">Датум враћања на допуну</option>
                     <option value="rok_za_dopunu">Rok za dopunu</option>
                     <option value="datum_prijema_dopune">Datum prijema dopune</option>
-                    <option value="osnov_zalbe">Osnov žalbe</option>
+                    <option value="osnov_zalbe">Основ жалбе</option>
                     <option value="napomena">Napomena</option>
                     <option value="datum_predaje_komisiji">Datum predaje komisiji</option>
                     <option value="datum_resavanja_na_zk">Datum rešavanja na ZK</option>
@@ -680,7 +680,7 @@
                     <option value="broj_odluke_us">Broj odluke US</option>
                     <option value="datum_donosenja_odluke_us">Datum donošenja odluke US</option>
                     <option value="datum_resenja_zk_po_presudi_us">Datum rešenja ZK po presudi US</option>
-                    <option value="broj_resenja_zk_po_presudi_us">Broj rešenja ZK po presudi US</option>
+                    <option value="broj_resenja_zk_po_presudi_us">Број решења ZK po presudi US</option>
                     <option value="naknada">Naknada</option>
                     <option value="dostavnica">Dostavnica</option>
                   </select>
@@ -772,7 +772,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
-              Dodaj filter
+              Додај filter
             </button>
           </div>
 
@@ -789,7 +789,7 @@
                 @click="closeAdvancedSearch"
                 class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 @click="applyAdvancedSearch"
@@ -817,30 +817,30 @@
           </div>
 
           <div class="p-6 space-y-6">
-            <!-- SEKCIJA 1: Osnovni podaci žalbe -->
+            <!-- SEKCIJA 1: Основни подаци жалбе -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h4 class="text-lg font-semibold text-gray-800 mb-4">Osnovni podaci žalbe</h4>
+              <h4 class="text-lg font-semibold text-gray-800 mb-4">Основни подаци жалбе</h4>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Podnosilac žalbe</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Подносилац жалбе</label>
                   <p class="text-gray-900 font-medium">
                     {{ selectedZalba.podnosilac ? `${selectedZalba.podnosilac.ime_podnosioca_zalbe} ${selectedZalba.podnosilac.prezime_podnosioca_zalbe}` : '-' }}
                   </p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Prijemni broj</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Пријемни број</label>
                   <p class="text-gray-900 font-medium">{{ selectedZalba.prijemni_broj || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum prijema žalbe</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум пријема жалбе</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_prijema_zalbe) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Broj rešenja</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Број решења</label>
                   <p class="text-gray-900">{{ selectedZalba.broj_resenja || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Osnov žalbe</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Основ жалбе</label>
                   <p class="text-gray-900">
                     {{
                       typeof selectedZalba.osnov_zalbe === 'object' && selectedZalba.osnov_zalbe !== null
@@ -850,7 +850,7 @@
                   </p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum vraćanja na dopunu</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум враћања на допуну</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_vracanja_na_dopunu) }}</p>
                 </div>
                 <div>
@@ -948,7 +948,7 @@
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_resenja_zk_po_presudi_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Broj rešenja ZK po presudi US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Број решења ZK po presudi US</label>
                   <p class="text-gray-900">{{ selectedZalba.broj_resenja_zk_po_presudi_us || '-' }}</p>
                 </div>
                 <div>
@@ -992,7 +992,7 @@
                 @click="cancelDelete"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 @click="confirmDelete"
