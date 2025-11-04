@@ -177,6 +177,9 @@ class ZalbaController extends Controller
 
         $zalba = Zalba::create($validated);
 
+        // Load relationships before returning
+        $zalba->load(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe']);
+
         return response()->json($zalba, 201);
     }
 
@@ -233,6 +236,9 @@ class ZalbaController extends Controller
         ]);
 
         $zalba->update($validated);
+
+        // Refresh and load relationships before returning
+        $zalba->refresh()->load(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe']);
 
         return response()->json($zalba);
     }
