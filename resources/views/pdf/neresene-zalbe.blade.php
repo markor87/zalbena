@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Извештај: Нерешене и упућене на допуну жалбе</title>
+    <title>Извештај: Нерешене жалбе</title>
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -44,7 +44,7 @@
     </style>
 </head>
 <body>
-    <h1>Извештај: Нерешене и упућене на допуну жалбе</h1>
+    <h1>Извештај: Нерешене жалбе</h1>
     <p style="text-align: center; margin-bottom: 20px;">Датум генерисања: {{ date('d.m.Y H:i') }}</p>
 
     <table>

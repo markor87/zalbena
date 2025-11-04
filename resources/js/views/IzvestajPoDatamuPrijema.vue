@@ -15,7 +15,7 @@
             v-model="searchQuery"
             type="text"
             placeholder="Име, презиме, пријемни број, број решења..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
         <div class="flex items-end gap-2">
@@ -27,7 +27,7 @@
           </button>
           <button
             @click="openAdvancedSearch"
-            class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200 flex items-center gap-2"
+            class="px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition duration-200 flex items-center gap-2"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -151,7 +151,7 @@
                 <select
                   v-model="filter.field"
                   @change="onFieldChange(index)"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 >
                   <option value="">Изаберите поље</option>
                   <option value="ime_i_prezime">Име и презиме</option>
@@ -168,7 +168,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">Оператор</label>
                 <select
                   v-model="filter.operator"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 >
                   <!-- Text operators -->
                   <template v-if="getFieldType(filter.field) === 'text'">
@@ -203,13 +203,13 @@
                   :enable-time-picker="false"
                   text-input
                   auto-apply
-                  input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
                 <input
                   v-else
                   v-model="filter.value"
                   type="text"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
               </div>
 
@@ -222,7 +222,7 @@
                   :enable-time-picker="false"
                   text-input
                   auto-apply
-                  input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
               </div>
 
@@ -243,7 +243,7 @@
             <!-- Add Filter Button -->
             <button
               @click="addFilter"
-              class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-purple-400 hover:text-purple-600 transition duration-200 flex items-center justify-center gap-2"
+              class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-700 transition duration-200 flex items-center justify-center gap-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -269,7 +269,7 @@
               </button>
               <button
                 @click="applyAdvancedSearch"
-                class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200"
+                class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition duration-200"
               >
                 Примени
               </button>

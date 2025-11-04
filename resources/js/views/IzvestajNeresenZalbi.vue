@@ -15,7 +15,7 @@
             v-model="searchQuery"
             type="text"
             placeholder="Ime, prezime, prijemni broj, broj rešenja..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
         <div class="flex items-end gap-2">
@@ -84,7 +84,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {{ item.prezime_podnosioca_zalbe || '-' }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-purple-600">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-700">
                   {{ item.prijemni_broj }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

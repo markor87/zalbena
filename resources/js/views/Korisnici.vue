@@ -6,7 +6,7 @@
         <h2 class="text-2xl font-bold text-gray-800">Korisnici</h2>
         <button
           @click="openModal('add')"
-          class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200"
+          class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition duration-200"
         >
           Dodaj korisnika
         </button>
@@ -23,7 +23,7 @@
             @input="fetchKorisnici(1)"
             type="text"
             placeholder="Ime ili email..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
         <div>
@@ -31,7 +31,7 @@
           <select
             v-model="filters.role"
             @change="fetchKorisnici(1)"
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           >
             <option value="">Sve uloge</option>
             <option value="admin">Admin</option>
@@ -83,7 +83,7 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   :class="korisnik.role === 'admin'
-                    ? 'bg-purple-100 text-purple-800'
+                    ? 'bg-slate-100 text-purple-800'
                     : 'bg-gray-100 text-gray-800'"
                   class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
                 >
@@ -96,7 +96,7 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm">
                 <button
                   @click="openModal('edit', korisnik)"
-                  class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-1 rounded-lg hover:from-blue-700 hover:to-cyan-700 transition duration-200 mr-2 text-xs"
+                  class="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition duration-200 mr-2 text-xs"
                 >
                   Izmeni
                 </button>
@@ -143,7 +143,7 @@
     <teleport to="body">
       <div v-if="showModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-          <div class="sticky top-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 rounded-t-xl">
+          <div class="sticky top-0 bg-blue-800 text-white p-6 rounded-t-xl">
             <h3 class="text-2xl font-bold">
               {{ modalMode === 'add' ? 'Dodaj novog korisnika' : 'Izmeni korisnika' }}
             </h3>
@@ -156,7 +156,7 @@
                 <input
                   v-model="form.name"
                   type="text"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   placeholder="Unesite ime"
                 />
               </div>
@@ -166,7 +166,7 @@
                 <input
                   v-model="form.email"
                   type="email"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   placeholder="primer@email.com"
                 />
               </div>
@@ -178,7 +178,7 @@
                 <input
                   v-model="form.password"
                   type="password"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   placeholder="••••••••"
                 />
               </div>
@@ -187,7 +187,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">Uloga *</label>
                 <select
                   v-model="form.role"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 >
                   <option value="">Izaberite ulogu</option>
                   <option value="admin">Admin</option>
@@ -205,7 +205,7 @@
               </button>
               <button
                 @click="saveKorisnik"
-                class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200"
+                class="px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition duration-200"
               >
                 {{ modalMode === 'add' ? 'Dodaj' : 'Sačuvaj' }}
               </button>

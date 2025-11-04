@@ -8,7 +8,7 @@
       </div>
       <button
         @click="openModal('create')"
-        class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition duration-200 flex items-center space-x-2"
+        class="bg-blue-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-900 transition duration-200 flex items-center space-x-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -18,10 +18,10 @@
     </div>
 
     <!-- Podnosilac Context Card -->
-    <div v-if="selectedPodnosilacData" class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl shadow-md p-6 mb-6 border-2 border-purple-200">
+    <div v-if="selectedPodnosilacData" class="bg-slate-50 rounded-xl shadow-md p-6 mb-6 border-2 border-slate-200">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-xl">
+          <div class="w-16 h-16 bg-blue-700 rounded-full flex items-center justify-center text-white font-bold text-xl">
             {{ selectedPodnosilacData.ime_podnosioca_zalbe?.[0] }}{{ selectedPodnosilacData.prezime_podnosioca_zalbe?.[0] }}
           </div>
           <div>
@@ -59,7 +59,7 @@
             v-model="searchQuery"
             type="text"
             placeholder="Prijemni broj, broj rešenja..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
         <div class="flex items-end gap-2">
@@ -71,7 +71,7 @@
           </button>
           <button
             @click="openAdvancedSearch"
-            class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-200 flex items-center gap-2"
+            class="px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition duration-200 flex items-center gap-2"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -113,7 +113,7 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button
                   @click="viewDetails(zalba)"
-                  class="text-blue-600 hover:text-blue-900 mr-3"
+                  class="text-blue-600 hover:text-blue-700 mr-3"
                 >
                   Detalji
                 </button>
@@ -219,7 +219,7 @@
                     v-model="form.prijemni_broj"
                     type="text"
                     required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -232,7 +232,7 @@
                     text-input
                     auto-apply
                     :required="true"
-                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -241,7 +241,7 @@
                   <input
                     v-model="form.broj_resenja"
                     type="text"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -265,7 +265,7 @@
                     :enable-time-picker="false"
                     text-input
                     auto-apply
-                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -277,7 +277,7 @@
                     :enable-time-picker="false"
                     text-input
                     auto-apply
-                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -289,7 +289,7 @@
                     :enable-time-picker="false"
                     text-input
                     auto-apply
-                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -299,7 +299,7 @@
                 <textarea
                   v-model="form.napomena"
                   rows="3"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 ></textarea>
               </div>
             </div>
@@ -318,7 +318,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -330,7 +330,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -342,7 +342,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -427,7 +427,7 @@
                       text-input
                       auto-apply
                       :disabled="true"
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent bg-gray-100"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent bg-gray-100"
                     />
                   </div>
                 </div>
@@ -445,7 +445,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -457,7 +457,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -469,7 +469,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -490,7 +490,7 @@
                     <input
                       v-model="form.broj_odluke_us"
                       type="text"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -502,7 +502,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -514,7 +514,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -523,7 +523,7 @@
                     <input
                       v-model="form.broj_resenja_zk_po_presudi_us"
                       type="text"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -533,7 +533,7 @@
                       v-model="form.naknada"
                       type="number"
                       step="0.01"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
 
@@ -545,7 +545,7 @@
                       :enable-time-picker="false"
                       text-input
                       auto-apply
-                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                      input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -562,7 +562,7 @@
               </button>
               <button
                 type="submit"
-                class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700"
+                class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900"
               >
                 {{ modalMode === 'create' ? 'Dodaj' : 'Sačuvaj' }}
               </button>
@@ -600,7 +600,7 @@
                   <select
                     v-model="filter.field"
                     @change="onFieldChange(index)"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   >
                     <option value="">Izaberite polje</option>
                     <option value="prijemni_broj">Prijemni broj</option>
@@ -641,7 +641,7 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Operator</label>
                   <select
                     v-model="filter.operator"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   >
                     <option value="">Izaberite operator</option>
                     <template v-if="getFieldType(filter.field) === 'text'">
@@ -676,14 +676,14 @@
                     text-input
                     auto-apply
                     :teleport="true"
-                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                   <input
                     v-else
                     v-model="filter.value"
                     type="text"
                     placeholder="Unesite vrednost"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -697,7 +697,7 @@
                     text-input
                     auto-apply
                     :teleport="true"
-                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
 
@@ -717,7 +717,7 @@
             <!-- Add Filter Button -->
             <button
               @click="addFilter"
-              class="mt-4 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-purple-500 hover:text-purple-600 transition flex items-center justify-center gap-2"
+              class="mt-4 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-purple-500 hover:text-blue-700 transition flex items-center justify-center gap-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -743,7 +743,7 @@
               </button>
               <button
                 @click="applyAdvancedSearch"
-                class="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+                class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition"
               >
                 Primeni pretragu
               </button>

@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
+  <div class="min-h-screen bg-gradient-to-br from-slate-900 to-blue-900 flex items-center justify-center p-4">
     <div class="max-w-md w-full">
       <!-- Logo/Branding -->
       <div class="text-center mb-8">
         <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-2xl shadow-lg mb-4">
-          <svg class="w-12 h-12 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-12 h-12 text-blue-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         </div>
@@ -33,7 +33,7 @@
                 v-model="form.email"
                 type="email"
                 required
-                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-600 focus:border-transparent transition duration-200"
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-800 focus:border-transparent transition duration-200"
                 placeholder="vas.email@primer.com"
               />
             </div>
@@ -55,7 +55,7 @@
                 v-model="form.password"
                 type="password"
                 required
-                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-600 focus:border-transparent transition duration-200"
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-800 focus:border-transparent transition duration-200"
                 placeholder="••••••••"
               />
             </div>
@@ -67,7 +67,7 @@
               id="remember"
               v-model="form.remember"
               type="checkbox"
-              class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+              class="h-4 w-4 text-blue-800 focus:ring-blue-800 border-gray-300 rounded"
             />
             <label for="remember" class="ml-2 block text-sm text-gray-700">
               Zapamti me
@@ -83,7 +83,7 @@
           <button
             type="submit"
             :disabled="loading"
-            class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 rounded-xl font-medium hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="w-full bg-blue-800 text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-800 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span v-if="!loading">Prijavite se</span>
             <span v-else class="flex items-center justify-center">

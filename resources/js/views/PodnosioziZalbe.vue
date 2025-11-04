@@ -8,7 +8,7 @@
       </div>
       <button
         @click="openModal('create')"
-        class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition duration-200 flex items-center space-x-2"
+        class="bg-blue-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-900 transition duration-200 flex items-center space-x-2"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -26,7 +26,7 @@
             v-model="searchQuery"
             type="text"
             placeholder="Ime, prezime ili JMBG..."
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
         <div class="flex items-end">
@@ -57,7 +57,7 @@
             <tr v-for="podnosilac in podnosioci" :key="podnosilac.id" class="hover:bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                  <div class="w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold">
+                  <div class="w-10 h-10 bg-blue-700 rounded-full flex items-center justify-center text-white font-bold">
                     {{ getInitials(podnosilac) }}
                   </div>
                   <div class="ml-4">
@@ -79,7 +79,7 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button
                   @click="goToZalbe(podnosilac)"
-                  class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-lg hover:from-purple-700 hover:to-pink-700 transition duration-200 mr-2 text-xs"
+                  class="bg-blue-800 text-white px-3 py-1 rounded-lg hover:bg-blue-900 transition duration-200 mr-2 text-xs"
                 >
                   Жалбе
                 </button>
@@ -146,7 +146,7 @@
                   v-model="form.ime_podnosioca_zalbe"
                   type="text"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
               </div>
 
@@ -156,7 +156,7 @@
                   v-model="form.prezime_podnosioca_zalbe"
                   type="text"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
               </div>
 
@@ -166,7 +166,7 @@
                   v-model="form.jmbg_podnosioca_zalbe"
                   type="text"
                   maxlength="13"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
               </div>
 
@@ -188,7 +188,7 @@
               <textarea
                 v-model="form.napomena"
                 rows="3"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
               ></textarea>
             </div>
 
@@ -202,7 +202,7 @@
               </button>
               <button
                 type="submit"
-                class="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700"
+                class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900"
               >
                 {{ modalMode === 'create' ? 'Dodaj' : 'Sačuvaj' }}
               </button>
