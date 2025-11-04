@@ -318,7 +318,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Rok za dopunu</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Рок за допуну</label>
                   <VueDatePicker
                     v-model="form.rok_za_dopunu"
                     format="dd.MM.yyyy"
@@ -330,7 +330,7 @@
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Datum prijema dopune</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Датум пријема допуне</label>
                   <VueDatePicker
                     v-model="form.datum_prijema_dopune"
                     format="dd.MM.yyyy"
@@ -343,7 +343,7 @@
               </div>
 
               <div class="mt-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Napomena</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Напомена</label>
                 <textarea
                   v-model="form.napomena"
                   rows="3"
@@ -359,7 +359,7 @@
                 <h4 class="text-lg font-semibold text-gray-800 mb-4">Komisija i upravni sud</h4>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum predaje komisiji</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум предаје комисији</label>
                     <VueDatePicker
                       v-model="form.datum_predaje_komisiji"
                       format="dd.MM.yyyy"
@@ -371,7 +371,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum rešavanja na ZK</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум решавања на ЗК</label>
                     <VueDatePicker
                       v-model="form.datum_resavanja_na_zk"
                       format="dd.MM.yyyy"
@@ -383,7 +383,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum ekspedicije DS organu</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум експедиције ДС органу</label>
                     <VueDatePicker
                       v-model="form.datum_ekspedicije_ds_organu"
                       format="dd.MM.yyyy"
@@ -395,79 +395,79 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Izvestilac sa žalbama</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Известилац са жалбама</label>
                     <v-select
                       v-model="form.izvestilac_sa_zalbama"
                       :options="clanoviKomisije"
                       :reduce="c => c.id"
                       :get-option-label="c => `${c.ime} ${c.prezime}`"
-                      placeholder="Izaberite izvestioca"
+                      placeholder="Изаберите известиоца"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Komisija ZKB</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Комисија ЗКБ</label>
                     <v-select
                       v-model="form.komisije_zkv"
                       :options="clanoviKomisije"
                       :reduce="c => c.id"
                       :get-option-label="c => `${c.ime} ${c.prezime}`"
-                      placeholder="Izaberite komisiju"
+                      placeholder="Изаберите комисију"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tipovi rešenja</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Типови решења</label>
                     <v-select
                       v-model="form.tipovi_resenja"
                       :options="tipoviResenja"
                       :reduce="t => t.id"
                       label="tip_resenja"
-                      placeholder="Izaberite tip"
+                      placeholder="Изаберите тип"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Član komisije 1</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Члан комисије 1</label>
                     <v-select
                       v-model="form.clanovi_komisije1"
                       :options="clanoviKomisije"
                       :reduce="c => `${c.ime} ${c.prezime}`"
                       :get-option-label="c => `${c.ime} ${c.prezime}`"
-                      placeholder="Izaberite člana"
+                      placeholder="Изаберите члана"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Član komisije 2</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Члан комисије 2</label>
                     <v-select
                       v-model="form.clanovi_komisije2"
                       :options="clanoviKomisije"
                       :reduce="c => `${c.ime} ${c.prezime}`"
                       :get-option-label="c => `${c.ime} ${c.prezime}`"
-                      placeholder="Izaberite člana"
+                      placeholder="Изаберите члана"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Status žalbe</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Статус жалбе</label>
                     <v-select
                       v-model="form.status_zalbe"
                       :options="statusiZalbe"
                       :reduce="s => s.status_zalbe"
                       label="status_zalbe"
-                      placeholder="Izaberite status"
+                      placeholder="Изаберите статус"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum isticanja donošenje</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум истицања доношење</label>
                     <VueDatePicker
                       v-model="form.datum_isticanja_donosenje"
                       format="dd.MM.yyyy"
@@ -486,7 +486,7 @@
                 <h4 class="text-lg font-semibold text-gray-800 mb-4">Tužba upućena Upravnom sudu Srbije</h4>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum prijema tužbe od US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум пријема тужбе од УС</label>
                     <VueDatePicker
                       v-model="form.datum_prijema_tuzbe_od_us"
                       format="dd.MM.yyyy"
@@ -498,7 +498,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum ekspedicije odgovora ZK</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум експедиције одговора ЗК</label>
                     <VueDatePicker
                       v-model="form.datum_ekspedicije_odgovora_zk"
                       format="dd.MM.yyyy"
@@ -510,7 +510,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum prijema odluke US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум пријема одлуке УС</label>
                     <VueDatePicker
                       v-model="form.datum_prijema_odluke_us"
                       format="dd.MM.yyyy"
@@ -522,19 +522,19 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Tip presude US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Тип пресуде УС</label>
                     <v-select
                       v-model="form.tipovi_presude_us"
                       :options="tipoviPresude"
                       :reduce="t => t.id"
                       label="tip_presude"
-                      placeholder="Izaberite tip"
+                      placeholder="Изаберите тип"
                       class="vue-select-custom"
                     />
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Broj odluke US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Број одлуке УС</label>
                     <input
                       v-model="form.broj_odluke_us"
                       type="text"
@@ -543,7 +543,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum donošenja odluke US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум доношења одлуке УС</label>
                     <VueDatePicker
                       v-model="form.datum_donosenja_odluke_us"
                       format="dd.MM.yyyy"
@@ -555,7 +555,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Datum rešenja ZK po presudi US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум решења ЗК по пресуди УС</label>
                     <VueDatePicker
                       v-model="form.datum_resenja_zk_po_presudi_us"
                       format="dd.MM.yyyy"
@@ -576,7 +576,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Naknada</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Накнада</label>
                     <input
                       v-model="form.naknada"
                       type="number"
@@ -586,7 +586,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Dostavnica</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Достављeница</label>
                     <VueDatePicker
                       v-model="form.dostavnica"
                       format="dd.MM.yyyy"
@@ -644,7 +644,7 @@
               <div v-for="(filter, index) in advancedFilters" :key="index" class="flex items-end gap-3 p-4 bg-gray-50 rounded-lg">
                 <!-- Field Selection -->
                 <div class="flex-1">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Polje</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Поље</label>
                   <select
                     v-model="filter.field"
                     @change="onFieldChange(index)"
@@ -657,36 +657,36 @@
                     <option value="institucija">Institucija</option>
                     <option value="datum_prijema_zalbe">Датум пријема жалбе</option>
                     <option value="datum_vracanja_na_dopunu">Датум враћања на допуну</option>
-                    <option value="rok_za_dopunu">Rok za dopunu</option>
-                    <option value="datum_prijema_dopune">Datum prijema dopune</option>
+                    <option value="rok_za_dopunu">Рок за допуну</option>
+                    <option value="datum_prijema_dopune">Датум пријема допуне</option>
                     <option value="osnov_zalbe">Основ жалбе</option>
-                    <option value="napomena">Napomena</option>
-                    <option value="datum_predaje_komisiji">Datum predaje komisiji</option>
-                    <option value="datum_resavanja_na_zk">Datum rešavanja na ZK</option>
-                    <option value="datum_ekspedicije_ds_organu">Datum ekspedicije DS organu</option>
-                    <option value="izvestilac_sa_zalbama">Izvestilac sa žalbama</option>
-                    <option value="komisije_zkv">Komisija ZKB</option>
-                    <option value="tipovi_resenja">Tipovi rešenja</option>
-                    <option value="clanovi_komisije1">Član komisije 1</option>
-                    <option value="clanovi_komisije2">Član komisije 2</option>
-                    <option value="datum_isticanja_donosenje">Datum isticanja donošenje</option>
-                    <option value="status_zalbe">Status žalbe</option>
-                    <option value="datum_prijema_tuzbe_od_us">Datum prijema tužbe od US</option>
-                    <option value="datum_ekspedicije_odgovora_zk">Datum ekspedicije odgovora ZK</option>
-                    <option value="datum_prijema_odluke_us">Datum prijema odluke US</option>
-                    <option value="tipovi_presude_us">Tip presude US</option>
-                    <option value="broj_odluke_us">Broj odluke US</option>
-                    <option value="datum_donosenja_odluke_us">Datum donošenja odluke US</option>
-                    <option value="datum_resenja_zk_po_presudi_us">Datum rešenja ZK po presudi US</option>
+                    <option value="napomena">Напомена</option>
+                    <option value="datum_predaje_komisiji">Датум предаје комисији</option>
+                    <option value="datum_resavanja_na_zk">Датум решавања на ЗК</option>
+                    <option value="datum_ekspedicije_ds_organu">Датум експедиције ДС органу</option>
+                    <option value="izvestilac_sa_zalbama">Известилац са жалбама</option>
+                    <option value="komisije_zkv">Комисија ЗКБ</option>
+                    <option value="tipovi_resenja">Типови решења</option>
+                    <option value="clanovi_komisije1">Члан комисије 1</option>
+                    <option value="clanovi_komisije2">Члан комисије 2</option>
+                    <option value="datum_isticanja_donosenje">Датум истицања доношење</option>
+                    <option value="status_zalbe">Статус жалбе</option>
+                    <option value="datum_prijema_tuzbe_od_us">Датум пријема тужбе од УС</option>
+                    <option value="datum_ekspedicije_odgovora_zk">Датум експедиције одговора ЗК</option>
+                    <option value="datum_prijema_odluke_us">Датум пријема одлуке УС</option>
+                    <option value="tipovi_presude_us">Тип пресуде УС</option>
+                    <option value="broj_odluke_us">Број одлуке УС</option>
+                    <option value="datum_donosenja_odluke_us">Датум доношења одлуке УС</option>
+                    <option value="datum_resenja_zk_po_presudi_us">Датум решења ЗК по пресуди УС</option>
                     <option value="broj_resenja_zk_po_presudi_us">Број решења ZK po presudi US</option>
-                    <option value="naknada">Naknada</option>
-                    <option value="dostavnica">Dostavnica</option>
+                    <option value="naknada">Накнада</option>
+                    <option value="dostavnica">Достављeница</option>
                   </select>
                 </div>
 
-                <!-- Operator Selection -->
+                <!-- Оператор Selection -->
                 <div class="flex-1">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Operator</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Оператор</label>
                   <select
                     v-model="filter.operator"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
@@ -715,7 +715,7 @@
 
                 <!-- Value Input -->
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Vrednost</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
                   <VueDatePicker
                     v-if="getFieldType(filter.field) === 'date'"
                     v-model="filter.value"
@@ -730,7 +730,7 @@
                     v-else
                     v-model="filter.value"
                     type="text"
-                    placeholder="Unesite vrednost"
+                    placeholder="Унесите вредност"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   />
                 </div>
@@ -852,17 +852,17 @@
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_vracanja_na_dopunu) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Rok za dopunu</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Рок за допуну</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.rok_za_dopunu) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum prijema dopune</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум пријема допуне</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_prijema_dopune) }}</p>
                 </div>
               </div>
 
               <div class="mt-4 bg-white p-4 rounded-lg border border-gray-200">
-                <label class="block text-sm font-medium text-gray-500 mb-2">Napomena</label>
+                <label class="block text-sm font-medium text-gray-500 mb-2">Напомена</label>
                 <p class="text-gray-900 whitespace-pre-wrap">{{ selectedZalba.napomena || 'Nema napomene' }}</p>
               </div>
             </div>
@@ -872,39 +872,39 @@
               <h4 class="text-lg font-semibold text-gray-800 mb-4">Komisija i upravni sud</h4>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum predaje komisiji</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум предаје комисији</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_predaje_komisiji) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum rešavanja na ZK</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум решавања на ЗК</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_resavanja_na_zk) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum ekspedicije DS organu</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум експедиције ДС органу</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_ekspedicije_ds_organu) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Izvestilac sa žalbama</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Известилац са жалбама</label>
                   <p class="text-gray-900">{{ selectedZalba.izvestilac_sa_zalbama || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Komisija ZKB</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Комисија ЗКБ</label>
                   <p class="text-gray-900">{{ selectedZalba.komisije_zkv || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Tipovi rešenja</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Типови решења</label>
                   <p class="text-gray-900">{{ selectedZalba.tipResenja?.tip_resenja || selectedZalba.tipovi_resenja || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Član komisije 1</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Члан комисије 1</label>
                   <p class="text-gray-900">{{ selectedZalba.clanovi_komisije1 || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Član komisije 2</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Члан комисије 2</label>
                   <p class="text-gray-900">{{ selectedZalba.clanovi_komisije2 || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Status žalbe</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Статус жалбе</label>
                   <span v-if="selectedZalba.status_zalbe" :class="['px-3 py-1 rounded-full text-xs font-medium', getStatusClass(selectedZalba.status_zalbe)]">
                     {{ selectedZalba.status_zalbe }}
                   </span>
@@ -918,31 +918,31 @@
               <h4 class="text-lg font-semibold text-gray-800 mb-4">Tužba upućena Upravnom sudu Srbije</h4>
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum prijema tužbe od US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум пријема тужбе од УС</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_prijema_tuzbe_od_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum ekspedicije odgovora ZK</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум експедиције одговора ЗК</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_ekspedicije_odgovora_zk) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum prijema odluke US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум пријема одлуке УС</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_prijema_odluke_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Tip presude US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Тип пресуде УС</label>
                   <p class="text-gray-900">{{ selectedZalba.tipPresude?.tip_presude || selectedZalba.tipovi_presude_us || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Broj odluke US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Број одлуке УС</label>
                   <p class="text-gray-900">{{ selectedZalba.broj_odluke_us || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum donošenja odluke US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум доношења одлуке УС</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_donosenja_odluke_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Datum rešenja ZK po presudi US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум решења ЗК по пресуди УС</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_resenja_zk_po_presudi_us) }}</p>
                 </div>
                 <div>
@@ -950,11 +950,11 @@
                   <p class="text-gray-900">{{ selectedZalba.broj_resenja_zk_po_presudi_us || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Naknada</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Накнада</label>
                   <p class="text-gray-900">{{ selectedZalba.naknada || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Dostavnica</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Достављeница</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.dostavnica) }}</p>
                 </div>
               </div>

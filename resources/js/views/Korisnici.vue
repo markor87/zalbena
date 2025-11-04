@@ -145,7 +145,7 @@
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
           <div class="sticky top-0 bg-blue-800 text-white p-6 rounded-t-xl">
             <h3 class="text-2xl font-bold">
-              {{ modalMode === 'add' ? 'Dodaj novog korisnika' : 'Измени korisnika' }}
+              {{ modalMode === 'add' ? 'Додај новог корисника' : 'Измени корисника' }}
             </h3>
           </div>
 
@@ -157,7 +157,7 @@
                   v-model="form.name"
                   type="text"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
-                  placeholder="Unesite ime"
+                  placeholder="Унесите име"
                 />
               </div>
 
@@ -173,7 +173,7 @@
 
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                  Šifra {{ modalMode === 'edit' ? '(ostavite prazno da ne menjate)' : '*' }}
+                  Шифра {{ modalMode === 'edit' ? '(оставите празно да не мењате)' : '*' }}
                 </label>
                 <input
                   v-model="form.password"
@@ -189,7 +189,7 @@
                   v-model="form.role"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 >
-                  <option value="">Izaberite ulogu</option>
+                  <option value="">Изаберите улогу</option>
                   <option value="admin">Admin</option>
                   <option value="user">Korisnik</option>
                 </select>
@@ -201,13 +201,13 @@
                 @click="closeModal"
                 class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 @click="saveKorisnik"
                 class="px-4 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition duration-200"
               >
-                {{ modalMode === 'add' ? 'Dodaj' : 'Sačuvaj' }}
+                {{ modalMode === 'add' ? 'Додај' : 'Сачувај' }}
               </button>
             </div>
           </div>
@@ -220,17 +220,17 @@
       <div v-if="showDeleteModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
           <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">Potvrda brisanja</h3>
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Потврда брисања</h3>
             <p class="text-gray-600 mb-6">
-              Da li ste sigurni da želite da obrišete korisnika <strong>{{ korisnikToDelete?.name }}</strong>?
-              Ova akcija se ne može poništiti.
+              Да ли сте сигурни да желите да обришете корисника <strong>{{ korisnikToDelete?.name }}</strong>?
+              Ова акција се не може поништити.
             </p>
             <div class="flex justify-end space-x-3">
               <button
                 @click="showDeleteModal = false"
                 class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 @click="deleteKorisnik"
