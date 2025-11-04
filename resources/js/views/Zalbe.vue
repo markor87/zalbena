@@ -191,7 +191,11 @@
                 {{ formatDate(zalba.datum_prijema_zalbe) }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ zalba.osnovZalbe?.osnov_zalbe || '-' }}
+                {{
+                  typeof zalba.osnov_zalbe === 'object' && zalba.osnov_zalbe !== null
+                    ? zalba.osnov_zalbe.osnov_zalbe
+                    : zalba.osnov_zalbe || '-'
+                }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {{ zalba.broj_resenja || '-' }}

@@ -78,11 +78,6 @@ class ZalbaController extends Controller
      */
     private function applyAdvancedFilter($query, $field, $operator, $value, $value2 = null)
     {
-        // Special handling for podnosilac field - search by concatenated name
-        if ($field === 'podnosioci_zalbe') {
-            $field = DB::raw("CONCAT(pz.ime_podnosioca_zalbe, ' ', pz.prezime_podnosioca_zalbe)");
-        }
-
         switch ($operator) {
             case 'equals':
                 $query->where($field, '=', $value);
