@@ -3,12 +3,12 @@
     <!-- Header with Add button -->
     <div class="bg-white rounded-lg shadow-sm p-6">
       <div class="flex justify-between items-center">
-        <h2 class="text-2xl font-bold text-gray-800">Korisnici</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Корисници</h2>
         <button
           @click="openModal('add')"
           class="bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition duration-200"
         >
-          Dodaj korisnika
+          Додај корисника
         </button>
       </div>
     </div>
@@ -17,23 +17,23 @@
     <div class="bg-white rounded-lg shadow-sm p-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Pretraga</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Претрага</label>
           <input
             v-model="filters.search"
-            @input="fetchKorisnici(1)"
+            @input="fetchКорисници(1)"
             type="text"
-            placeholder="Ime ili email..."
+            placeholder="Име или емаил..."
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Uloga</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Улога</label>
           <select
             v-model="filters.role"
-            @change="fetchKorisnici(1)"
+            @change="fetchКорисници(1)"
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           >
-            <option value="">Sve uloge</option>
+            <option value="">Све улоге</option>
             <option value="admin">Admin</option>
             <option value="user">Korisnik</option>
           </select>
@@ -43,7 +43,7 @@
             @click="resetFilters"
             class="w-full bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition duration-200"
           >
-            Resetuj filtere
+            Ресетуј филтере
           </button>
         </div>
       </div>
@@ -56,19 +56,19 @@
           <thead class="bg-gradient-to-r from-purple-50 to-pink-50">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                Ime
+                Име
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                 Email
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                Uloga
+                Улога
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                Datum kreiranja
+                Датум креирања
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                Akcije
+                Акције
               </th>
             </tr>
           </thead>
@@ -98,7 +98,7 @@
                   @click="openModal('edit', korisnik)"
                   class="bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 transition duration-200 mr-2 text-xs"
                 >
-                  Izmeni
+                  Измени
                 </button>
                 <button
                   @click="confirmDelete(korisnik)"
@@ -106,7 +106,7 @@
                   :disabled="korisnik.id === currentUser.id"
                   :class="{ 'opacity-50 cursor-not-allowed': korisnik.id === currentUser.id }"
                 >
-                  Obriši
+                  Обриши
                 </button>
               </td>
             </tr>
@@ -126,7 +126,7 @@
             <button
               v-for="page in visiblePages"
               :key="page"
-              @click="fetchKorisnici(page)"
+              @click="fetchКорисници(page)"
               :class="page === korisnici.current_page
                 ? 'bg-purple-600 text-white'
                 : 'bg-white text-gray-700 hover:bg-gray-100'"
@@ -145,14 +145,14 @@
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
           <div class="sticky top-0 bg-blue-800 text-white p-6 rounded-t-xl">
             <h3 class="text-2xl font-bold">
-              {{ modalMode === 'add' ? 'Dodaj novog korisnika' : 'Izmeni korisnika' }}
+              {{ modalMode === 'add' ? 'Dodaj novog korisnika' : 'Измени korisnika' }}
             </h3>
           </div>
 
           <div class="p-6">
             <div class="space-y-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Ime *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Име *</label>
                 <input
                   v-model="form.name"
                   type="text"
@@ -184,7 +184,7 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Uloga *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Улога *</label>
                 <select
                   v-model="form.role"
                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
@@ -236,7 +236,7 @@
                 @click="deleteKorisnik"
                 class="px-4 py-2 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg hover:from-red-700 hover:to-pink-700 transition duration-200"
               >
-                Obriši
+                Обриши
               </button>
             </div>
           </div>
@@ -280,7 +280,7 @@ const form = ref({
 const showDeleteModal = ref(false);
 const korisnikToDelete = ref(null);
 
-const fetchKorisnici = async (page = 1) => {
+const fetchКорисници = async (page = 1) => {
   try {
     const params = {
       page,
@@ -302,7 +302,7 @@ const resetFilters = () => {
     search: '',
     role: ''
   };
-  fetchKorisnici(1);
+  fetchКорисници(1);
 };
 
 const openModal = (mode, korisnik = null) => {
@@ -343,7 +343,7 @@ const saveKorisnik = async () => {
       await axios.put(`/korisnici/${form.value.id}`, form.value);
     }
     closeModal();
-    fetchKorisnici(korisnici.value.current_page);
+    fetchКорисници(korisnici.value.current_page);
   } catch (error) {
     console.error('Error saving korisnik:', error);
     if (error.response?.data?.errors) {
@@ -365,7 +365,7 @@ const deleteKorisnik = async () => {
     await axios.delete(`/korisnici/${korisnikToDelete.value.id}`);
     showDeleteModal.value = false;
     korisnikToDelete.value = null;
-    fetchKorisnici(korisnici.value.current_page);
+    fetchКорисници(korisnici.value.current_page);
   } catch (error) {
     console.error('Error deleting korisnik:', error);
     if (error.response?.data?.message) {
@@ -394,6 +394,6 @@ const visiblePages = computed(() => {
 });
 
 onMounted(() => {
-  fetchKorisnici();
+  fetchКорисници();
 });
 </script>
