@@ -62,50 +62,6 @@
           <span class="font-medium">Жалбе</span>
         </router-link>
 
-        <!-- Korisnici - Dropdown -->
-        <div v-if="isAdmin">
-          <button
-            @click="toggleKorisnici"
-            class="w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200"
-            :class="{ 'bg-sky-50 text-sky-900': korisniciOpen || $route.path.startsWith('/korisnici') }"
-          >
-            <div class="flex items-center">
-              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              <span class="font-medium">Корисници</span>
-            </div>
-            <svg
-              :class="['w-4 h-4 transition-transform duration-200', korisniciOpen ? 'rotate-180' : '']"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-
-          <!-- Dropdown Items -->
-          <transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="opacity-0 -translate-y-1"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition ease-in duration-150"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-1"
-          >
-            <div v-show="korisniciOpen" class="ml-4 mt-2 space-y-1 border-l-2 border-slate-200 pl-4">
-              <router-link
-                to="/korisnici"
-                class="block px-4 py-2 text-sm text-gray-600 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200"
-                :class="{ 'bg-sky-50 text-sky-900': $route.path === '/korisnici' }"
-              >
-                Сви корисници
-              </router-link>
-            </div>
-          </transition>
-        </div>
-
         <!-- Izvestaji - Dropdown -->
         <div>
           <button
@@ -194,6 +150,50 @@
                 :class="{ 'bg-sky-50 text-sky-900': $route.path === '/izvestaji/upravni-sporovi-po-godinama' }"
               >
                 Управни спорови у току по годинама
+              </router-link>
+            </div>
+          </transition>
+        </div>
+
+        <!-- Korisnici - Dropdown -->
+        <div v-if="isAdmin">
+          <button
+            @click="toggleKorisnici"
+            class="w-full flex items-center justify-between px-4 py-3 text-gray-700 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200"
+            :class="{ 'bg-sky-50 text-sky-900': korisniciOpen || $route.path.startsWith('/korisnici') }"
+          >
+            <div class="flex items-center">
+              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              <span class="font-medium">Корисници</span>
+            </div>
+            <svg
+              :class="['w-4 h-4 transition-transform duration-200', korisniciOpen ? 'rotate-180' : '']"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          <!-- Dropdown Items -->
+          <transition
+            enter-active-class="transition ease-out duration-200"
+            enter-from-class="opacity-0 -translate-y-1"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition ease-in duration-150"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 -translate-y-1"
+          >
+            <div v-show="korisniciOpen" class="ml-4 mt-2 space-y-1 border-l-2 border-slate-200 pl-4">
+              <router-link
+                to="/korisnici"
+                class="block px-4 py-2 text-sm text-gray-600 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200"
+                :class="{ 'bg-sky-50 text-sky-900': $route.path === '/korisnici' }"
+              >
+                Сви корисници
               </router-link>
             </div>
           </transition>
