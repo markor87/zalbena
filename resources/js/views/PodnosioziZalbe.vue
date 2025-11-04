@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="mb-6 flex items-center justify-between">
       <div>
-        <h2 class="text-3xl font-bold text-gray-800">Podnosioci žalbe</h2>
-        <p class="text-gray-600 mt-2">Upravljajte podnosiocima žalbi</p>
+        <h2 class="text-3xl font-bold text-gray-800">Подносиоци жалбе</h2>
+        <p class="text-gray-600 mt-2">Управљајте подносиоцима жалби</p>
       </div>
       <button
         @click="openModal('create')"
@@ -13,7 +13,7 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
-        <span>Dodaj podnosioca</span>
+        <span>Додај подносиоца</span>
       </button>
     </div>
 
@@ -21,11 +21,11 @@
     <div class="bg-white rounded-xl shadow-md p-6 mb-6">
       <div class="flex items-end gap-4">
         <div class="w-80">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Pretraga</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Претрага</label>
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Ime, prezime ili JMBG..."
+            placeholder="Име, презиме или ЈМБГ..."
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
@@ -34,7 +34,7 @@
             @click="resetFilters"
             class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-200"
           >
-            Resetuj
+            Ресетуј
           </button>
         </div>
       </div>
@@ -51,7 +51,7 @@
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               >
                 <div class="flex items-center gap-1">
-                  Ime i prezime
+                  Име и презиме
                   <span v-if="sortBy === 'ime_podnosioca_zalbe'" class="text-blue-800">
                     {{ sortDirection === 'asc' ? '↑' : '↓' }}
                   </span>
@@ -73,14 +73,14 @@
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               >
                 <div class="flex items-center gap-1">
-                  Institucija
+                  Институција
                   <span v-if="sortBy === 'institucija_podnosioca_zalbe'" class="text-blue-800">
                     {{ sortDirection === 'asc' ? '↑' : '↓' }}
                   </span>
                 </div>
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Napomena</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Напомена</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Акције</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -117,13 +117,13 @@
                   @click="openModal('edit', podnosilac)"
                   class="text-purple-600 hover:text-purple-900 mr-3"
                 >
-                  Izmeni
+                  Измени
                 </button>
                 <button
                   @click="deletePodnosilac(podnosilac.id)"
                   class="text-red-600 hover:text-red-900"
                 >
-                  Obriši
+                  Обриши
                 </button>
               </td>
             </tr>
@@ -134,7 +134,7 @@
       <!-- Pagination -->
       <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
         <div class="text-sm text-gray-700">
-          Prikazano <span class="font-medium">{{ from }}-{{ to }}</span> od <span class="font-medium">{{ total }}</span> ukupno
+          Приказано <span class="font-medium">{{ from }}-{{ to }}</span> од <span class="font-medium">{{ total }}</span> укупно
         </div>
         <div class="flex space-x-2">
           <button
@@ -142,17 +142,17 @@
             :disabled="currentPage === 1"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Prethodna
+            Претходна
           </button>
           <span class="px-3 py-1 text-sm text-gray-700">
-            Strana {{ currentPage }} od {{ lastPage }}
+            Страна {{ currentPage }} од {{ lastPage }}
           </span>
           <button
             @click="goToPage(currentPage + 1)"
             :disabled="currentPage === lastPage"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sledeća
+            Следећа
           </button>
         </div>
       </div>
@@ -164,14 +164,14 @@
         <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div class="p-6 border-b border-gray-200">
             <h3 class="text-2xl font-bold text-gray-800">
-              {{ modalMode === 'create' ? 'Dodaj novog podnosioca' : 'Izmeni podnosioca' }}
+              {{ modalMode === 'create' ? 'Додај новог подносиоца' : 'Измени подносиоца' }}
             </h3>
           </div>
 
           <form @submit.prevent="submitForm" class="p-6 space-y-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Ime *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Име *</label>
                 <input
                   v-model="form.ime_podnosioca_zalbe"
                   type="text"
@@ -181,7 +181,7 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Prezime *</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Презиме *</label>
                 <input
                   v-model="form.prezime_podnosioca_zalbe"
                   type="text"
@@ -201,20 +201,20 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Institucija</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Институција</label>
                 <v-select
                   v-model="form.institucija_podnosioca_zalbe"
                   :options="organi"
                   :reduce="organ => organ.organ"
                   label="organ"
-                  placeholder="Izaberite instituciju"
+                  placeholder="Изаберите институцију"
                   class="vue-select-custom"
                 />
               </div>
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Napomena</label>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Напомена</label>
               <textarea
                 v-model="form.napomena"
                 rows="3"
@@ -228,13 +228,13 @@
                 @click="closeModal"
                 class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 type="submit"
                 class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900"
               >
-                {{ modalMode === 'create' ? 'Dodaj' : 'Sačuvaj' }}
+                {{ modalMode === 'create' ? 'Додај' : 'Сачувај' }}
               </button>
             </div>
           </form>
@@ -252,20 +252,20 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Potvrda brisanja</h3>
-            <p class="text-gray-600 text-center mb-6">Da li ste sigurni da želite da obrišete ovog podnosioca?</p>
+            <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Потврда брисања</h3>
+            <p class="text-gray-600 text-center mb-6">Да ли сте сигурни да желите да обришете овог подносиоца?</p>
             <div class="flex gap-3">
               <button
                 @click="cancelDelete"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200"
               >
-                Otkaži
+                Откажи
               </button>
               <button
                 @click="confirmDelete"
                 class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200"
               >
-                Obriši
+                Обриши
               </button>
             </div>
           </div>
@@ -423,10 +423,10 @@ const submitForm = async () => {
     }
     await fetchPodnosioci();
     closeModal();
-    showToastNotification(isCreate ? 'Podnosilac uspešno dodat!' : 'Podnosilac uspešno izmenjen!', 'success');
+    showToastNotification(isCreate ? 'Подносилац успешно додат!' : 'Подносилац успешно измењен!', 'success');
   } catch (error) {
     console.error('Error saving podnosilac:', error);
-    showToastNotification('Greška prilikom čuvanja podataka.', 'error');
+    showToastNotification('Грешка приликом чувања података.', 'error');
   }
 };
 
@@ -441,10 +441,10 @@ const confirmDelete = async () => {
     await fetchPodnosioci();
     showDeleteConfirm.value = false;
     deleteTargetId.value = null;
-    showToastNotification('Podnosilac uspešno obrisan!', 'success');
+    showToastNotification('Подносилац успешно обрисан!', 'success');
   } catch (error) {
     console.error('Error deleting podnosilac:', error);
-    showToastNotification('Greška prilikom brisanja.', 'error');
+    showToastNotification('Грешка приликом брисања.', 'error');
   }
 };
 

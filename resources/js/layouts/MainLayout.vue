@@ -241,12 +241,12 @@
           <button
             @click="handleLogout"
             class="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
-            title="Odjavi se"
+            title="Одјави се"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
-            <span class="font-medium">Odjavi se</span>
+            <span class="font-medium">Одјави се</span>
           </button>
         </div>
       </header>
@@ -308,21 +308,21 @@ const userInitials = computed(() => {
 
 const pageTitle = computed(() => {
   const titles = {
-    '/': 'Početna',
-    '/podnosioci-zalbe': 'Podnosioci žalbe',
-    '/zalbe': 'Žalbe',
-    '/korisnici': 'Korisnici',
-    '/izvestaji': 'Izveštaji',
-    '/izvestaji/neresene-zalbe': 'Izveštaj: Nerešene i upućene na dopunu',
-    '/izvestaji/po-datumu-prijema': 'Izveštaj: Evidencija žalbi po datumu prijema',
-    '/izvestaji/tuzbe-od-us': 'Izveštaj: Tužbe primljene od Upravnog suda Srbije',
-    '/izvestaji/datum-ekspedicije': 'Izveštaj: Datum ekspedicije rešenih žalbi',
-    '/izvestaji/ekspedovane-tuzbe': 'Izveštaj: Ekspedovane tužbe',
-    '/izvestaji/odluke-suda': 'Izveštaj: Odluke suda',
-    '/izvestaji/upravni-sporovi-u-toku': 'Izveštaj: Upravni sporovi u toku',
-    '/izvestaji/upravni-sporovi-po-godinama': 'Izveštaj: Upravni sporovi u toku po godinama'
+    '/': 'Почетна',
+    '/podnosioci-zalbe': 'Подносиоци жалбе',
+    '/zalbe': 'Жалбе',
+    '/korisnici': 'Корисници',
+    '/izvestaji': 'Извештаји',
+    '/izvestaji/neresene-zalbe': 'Извештај: Нерешене и упућене на допуну',
+    '/izvestaji/po-datumu-prijema': 'Извештај: Евиденција жалби по датуму пријема',
+    '/izvestaji/tuzbe-od-us': 'Извештај: Тужбе примљене од Управног суда Србије',
+    '/izvestaji/datum-ekspedicije': 'Извештај: Датум експедиције решених жалби',
+    '/izvestaji/ekspedovane-tuzbe': 'Извештај: Експедоване тужбе',
+    '/izvestaji/odluke-suda': 'Извештај: Одлуке суда',
+    '/izvestaji/upravni-sporovi-u-toku': 'Извештај: Управни спорови у току',
+    '/izvestaji/upravni-sporovi-po-godinama': 'Извештај: Управни спорови у току по годинама'
   };
-  return titles[route.path] || 'Zalbena';
+  return titles[route.path] || 'Жалбена';
 });
 
 const handleLogout = async () => {
