@@ -14,9 +14,7 @@ class ZalbaController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Zalba::with(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe'])
-            ->leftJoin('podnosioci_zalbi as pz', 'zalbe.podnosioci_zalbe', '=', 'pz.id')
-            ->select('zalbe.*');
+        $query = Zalba::with(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe']);
 
         // Quick search filter
         if ($request->has('search') && $request->search) {
@@ -48,7 +46,29 @@ class ZalbaController extends Controller
             }
         }
 
-        $zalbe = $query->orderBy('datum_unosa', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'datum_unosa');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields (security: prevent SQL injection)
+        $allowedSortFields = [
+            'prijemni_broj',
+            'broj_resenja',
+            'datum_prijema_zalbe',
+            'datum_resavanja',
+            'datum_unosa',
+            'status_zalbe',
+            'broj_presude',
+            'datum_ekspedicije'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('datum_unosa', 'desc');
+        }
+
+        $zalbe = $query->paginate(10);
 
         return response()->json($zalbe);
     }

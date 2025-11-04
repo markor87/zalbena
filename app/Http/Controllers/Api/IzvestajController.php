@@ -240,7 +240,27 @@ class IzvestajController extends Controller
             }
         }
 
-        $data = $query->orderBy('z.datum_prijema_zalbe', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'z.datum_prijema_zalbe');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'ime_i_prezime',
+            'z.datum_prijema_zalbe',
+            'pz.institucija_podnosioca_zalbe',
+            'z.prijemni_broj',
+            'z.broj_resenja',
+            'z.status_zalbe'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('z.datum_prijema_zalbe', 'desc');
+        }
+
+        $data = $query->paginate(10);
 
         return response()->json($data);
     }
@@ -493,7 +513,27 @@ class IzvestajController extends Controller
             }
         }
 
-        $data = $query->orderBy('z.datum_prijema_zalbe', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'z.datum_prijema_zalbe');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'ime_i_prezime',
+            'pz.institucija_podnosioca_zalbe',
+            'z.prijemni_broj',
+            'z.datum_prijema_zalbe',
+            'z.datum_prijema_tuzbe_od_us',
+            'stp.tip_presude'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('z.datum_prijema_zalbe', 'desc');
+        }
+
+        $data = $query->paginate(10);
 
         return response()->json($data);
     }
@@ -744,7 +784,26 @@ class IzvestajController extends Controller
             }
         }
 
-        $data = $query->orderBy('z.datum_ekspedicije_ds_organu', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'z.datum_ekspedicije_ds_organu');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'ime_i_prezime',
+            'pz.institucija_podnosioca_zalbe',
+            'z.prijemni_broj',
+            'z.broj_resenja',
+            'z.datum_ekspedicije_ds_organu'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('z.datum_ekspedicije_ds_organu', 'desc');
+        }
+
+        $data = $query->paginate(10);
 
         return response()->json($data);
     }
@@ -991,7 +1050,29 @@ class IzvestajController extends Controller
             }
         }
 
-        $data = $query->orderBy('z.datum_ekspedicije_odgovora_zk', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'z.datum_ekspedicije_odgovora_zk');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'ime_i_prezime',
+            'pz.institucija_podnosioca_zalbe',
+            'z.prijemni_broj',
+            'z.datum_prijema_odluke_us',
+            'z.datum_prijema_zalbe',
+            'z.datum_prijema_tuzbe_od_us',
+            'z.datum_ekspedicije_odgovora_zk',
+            'z.status_zalbe'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('z.datum_ekspedicije_odgovora_zk', 'desc');
+        }
+
+        $data = $query->paginate(10);
 
         return response()->json($data);
     }
@@ -1245,7 +1326,29 @@ class IzvestajController extends Controller
             }
         }
 
-        $data = $query->orderBy('z.datum_prijema_odluke_us', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'z.datum_prijema_odluke_us');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'ime_i_prezime',
+            'pz.institucija_podnosioca_zalbe',
+            'z.prijemni_broj',
+            'z.datum_prijema_odluke_us',
+            'z.datum_prijema_zalbe',
+            'z.datum_prijema_tuzbe_od_us',
+            'z.status_zalbe',
+            'stp.tip_presude'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('z.datum_prijema_odluke_us', 'desc');
+        }
+
+        $data = $query->paginate(10);
 
         return response()->json($data);
     }
@@ -1636,18 +1739,122 @@ class IzvestajController extends Controller
     }
 
     /**
-     * Export zalbe to PDF
+     * Export zalbe to PDF (optimized for large datasets)
      */
     public function exportZalbePdf(Request $request)
     {
-        set_time_limit(120);
+        set_time_limit(300); // 5 minutes
+        ini_set('memory_limit', '512M'); // Increase memory
 
         $data = $this->getZalbeExportQuery($request)->get();
 
         $pdf = Pdf::loadView('pdf.zalbe', compact('data'));
         $pdf->setPaper('a4', 'landscape');
+        $pdf->setOptions([
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => false,
+            'dpi' => 96, // Lower DPI for faster rendering
+            'defaultFont' => 'DejaVu Sans',
+        ]);
 
         return $pdf->download('zalbe-' . date('Y-m-d') . '.pdf');
+    }
+
+    /**
+     * Export zalbe to Excel (extended dataset)
+     */
+    public function exportZalbeExcel(Request $request)
+    {
+        set_time_limit(180); // 3 minutes
+
+        $data = $this->getZalbeExportQueryExtended($request)->get();
+
+        return Excel::download(new class($data) implements FromCollection, WithHeadings {
+            protected $data;
+
+            public function __construct($data)
+            {
+                $this->data = $data;
+            }
+
+            public function collection()
+            {
+                return $this->data->map(function($item) {
+                    return [
+                        'Пријемни број' => $item->prijemni_broj ?? '-',
+                        'Датум пријема' => $item->datum_prijema_zalbe ? date('d.m.Y', strtotime($item->datum_prijema_zalbe)) : '-',
+                        'Број решења' => $item->broj_resenja ?? '-',
+                        'Статус' => $item->status_zalbe ?? '-',
+                        'Име подносиоца' => $item->ime_podnosioca_zalbe ?? '-',
+                        'Презиме подносиоца' => $item->prezime_podnosioca_zalbe ?? '-',
+                        'ЈМБГ' => $item->jmbg_podnosioca_zalbe ?? '-',
+                        'Институција' => $item->institucija_podnosioca_zalbe ?? '-',
+                        'Основ жалбе' => $item->osnov_zalbe ?? '-',
+                        'Тип решења' => $item->tip_resenja ?? '-',
+                        'Тип решења напомена' => $item->tip_resenja_napomena ?? '-',
+                        'Датум враћања на допуну' => $item->datum_vracanja_na_dopunu ? date('d.m.Y', strtotime($item->datum_vracanja_na_dopunu)) : '-',
+                        'Датум пријема допуне' => $item->datum_prijema_dopune ? date('d.m.Y', strtotime($item->datum_prijema_dopune)) : '-',
+                        'Датум предаје комисији' => $item->datum_predaje_komisiji ? date('d.m.Y', strtotime($item->datum_predaje_komisiji)) : '-',
+                        'Датум решавања на ЗК' => $item->datum_resavanja_na_zk ? date('d.m.Y', strtotime($item->datum_resavanja_na_zk)) : '-',
+                        'Датум експедиције ДС органу' => $item->datum_ekspedicije_ds_organu ? date('d.m.Y', strtotime($item->datum_ekspedicije_ds_organu)) : '-',
+                        'Датум истицања доношење' => $item->datum_isticanja_donosenje ? date('d.m.Y', strtotime($item->datum_isticanja_donosenje)) : '-',
+                        'Рок за допуну' => $item->rok_za_dopunu ? date('d.m.Y', strtotime($item->rok_za_dopunu)) : '-',
+                        'Комисија ЗКВ' => $item->komisija_zkv ?? '-',
+                        'Чланови комисије 1' => $item->clanovi_komisije1 ?? '-',
+                        'Чланови комисије 2' => $item->clanovi_komisije2 ?? '-',
+                        'Накнада' => $item->naknada ?? '-',
+                        'Број одлуке УС' => $item->broj_odluke_us ?? '-',
+                        'Датум доношења одлуке УС' => $item->datum_donosenja_odluke_us ? date('d.m.Y', strtotime($item->datum_donosenja_odluke_us)) : '-',
+                        'Датум пријема тужбе од УС' => $item->datum_prijema_tuzbe_od_us ? date('d.m.Y', strtotime($item->datum_prijema_tuzbe_od_us)) : '-',
+                        'Датум експедиције одговора ЗК' => $item->datum_ekspedicije_odgovora_zk ? date('d.m.Y', strtotime($item->datum_ekspedicije_odgovora_zk)) : '-',
+                        'Датум пријема одлуке УС' => $item->datum_prijema_odluke_us ? date('d.m.Y', strtotime($item->datum_prijema_odluke_us)) : '-',
+                        'Број решења ЗК по пресуди УС' => $item->broj_resenja_zk_po_presudi_us ?? '-',
+                        'Датум решења ЗК по пресуди УС' => $item->datum_resenja_zk_po_presudi_us ? date('d.m.Y', strtotime($item->datum_resenja_zk_po_presudi_us)) : '-',
+                        'Достaвница' => $item->dostavnica ? date('d.m.Y', strtotime($item->dostavnica)) : '-',
+                        'Тип пресуде УС' => $item->tip_presude ?? '-',
+                        'Напомена' => $item->napomena ?? '-',
+                    ];
+                });
+            }
+
+            public function headings(): array
+            {
+                return [
+                    'Пријемни број',
+                    'Датум пријема',
+                    'Број решења',
+                    'Статус',
+                    'Име подносиоца',
+                    'Презиме подносиоца',
+                    'ЈМБГ',
+                    'Институција',
+                    'Основ жалбе',
+                    'Тип решења',
+                    'Тип решења напомена',
+                    'Датум враћања на допуну',
+                    'Датум пријема допуне',
+                    'Датум предаје комисији',
+                    'Датум решавања на ЗК',
+                    'Датум експедиције ДС органу',
+                    'Датум истицања доношење',
+                    'Рок за допуну',
+                    'Комисија ЗКВ',
+                    'Чланови комисије 1',
+                    'Чланови комисије 2',
+                    'Накнада',
+                    'Број одлуке УС',
+                    'Датум доношења одлуке УС',
+                    'Датум пријема тужбе од УС',
+                    'Датум експедиције одговора ЗК',
+                    'Датум пријема одлуке УС',
+                    'Број решења ЗК по пресуди УС',
+                    'Датум решења ЗК по пресуди УС',
+                    'Доставница',
+                    'Тип пресуде УС',
+                    'Напомена',
+                ];
+            }
+        }, 'zalbe-' . date('Y-m-d') . '.xlsx');
     }
 
     /**
@@ -1784,5 +1991,119 @@ class IzvestajController extends Controller
                 $query->whereNotNull($field);
                 break;
         }
+    }
+
+    /**
+     * Get extended query for zalbe export (Excel with all fields)
+     */
+    private function getZalbeExportQueryExtended(Request $request)
+    {
+        $query = DB::table('zalbe as z')
+            ->leftJoin('podnosioci_zalbi as pz', 'z.podnosioci_zalbe', '=', 'pz.id')
+            ->leftJoin('sifarnik_osnov_zalbe as soz', 'z.osnov_zalbe', '=', 'soz.id')
+            ->leftJoin('sifarnik_tipovi_resenja as str', 'z.tipovi_resenja', '=', 'str.id')
+            ->leftJoin('sifarnik_tip_presude as stp', 'z.tipovi_presude_us', '=', 'stp.id')
+            ->select(
+                // Osnovni podaci žalbe
+                'z.prijemni_broj',
+                'z.datum_prijema_zalbe',
+                'z.broj_resenja',
+                'z.status_zalbe',
+
+                // Podnosilac
+                'pz.ime_podnosioca_zalbe',
+                'pz.prezime_podnosioca_zalbe',
+                'pz.jmbg_podnosioca_zalbe',
+                'pz.institucija_podnosioca_zalbe',
+
+                // Šifarnici
+                'soz.osnov_zalbe',
+                'str.tip_resenja',
+                'stp.tip_presude',
+
+                // Datumi
+                'z.datum_vracanja_na_dopunu',
+                'z.datum_prijema_dopune',
+                'z.datum_predaje_komisiji',
+                'z.datum_resavanja_na_zk',
+                'z.datum_ekspedicije_ds_organu',
+                'z.datum_isticanja_donosenje',
+                'z.rok_za_dopunu',
+                'z.datum_donosenja_odluke_us',
+                'z.datum_prijema_tuzbe_od_us',
+                'z.datum_ekspedicije_odgovora_zk',
+                'z.datum_prijema_odluke_us',
+                'z.datum_resenja_zk_po_presudi_us',
+                'z.dostavnica',
+
+                // Dodatni podaci
+                'z.tip_resenja_napomena',
+                'z.napomena',
+                'z.komisije_zkv as komisija_zkv',
+                'z.clanovi_komisije1',
+                'z.clanovi_komisije2',
+                'z.naknada',
+                'z.broj_odluke_us',
+                'z.broj_resenja_zk_po_presudi_us'
+            );
+
+        // Simple search filter
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('z.prijemni_broj', 'LIKE', "%{$search}%")
+                  ->orWhere('z.broj_resenja', 'LIKE', "%{$search}%")
+                  ->orWhere('pz.ime_podnosioca_zalbe', 'LIKE', "%{$search}%")
+                  ->orWhere('pz.prezime_podnosioca_zalbe', 'LIKE', "%{$search}%")
+                  ->orWhere('pz.institucija_podnosioca_zalbe', 'LIKE', "%{$search}%")
+                  ->orWhere('z.status_zalbe', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Podnosilac filter
+        if ($request->has('podnosilac_id') && $request->podnosilac_id) {
+            $query->where('z.podnosioci_zalbe', $request->podnosilac_id);
+        }
+
+        // Advanced search filters
+        $advancedFilters = $request->input('advanced_filters');
+        if ($advancedFilters && is_string($advancedFilters)) {
+            $advancedFilters = json_decode($advancedFilters, true);
+        }
+
+        if (is_array($advancedFilters) && count($advancedFilters) > 0) {
+            foreach ($advancedFilters as $filter) {
+                if (!isset($filter['field']) || !isset($filter['operator'])) {
+                    continue;
+                }
+
+                $field = $filter['field'];
+                $operator = $filter['operator'];
+                $value = $filter['value'] ?? null;
+                $value2 = $filter['value2'] ?? null;
+
+                // Map field names to actual database columns
+                $fieldMap = [
+                    'podnosioci_zalbe' => DB::raw("CONCAT(pz.ime_podnosioca_zalbe, ' ', pz.prezime_podnosioca_zalbe)"),
+                    'prijemni_broj' => 'z.prijemni_broj',
+                    'broj_resenja' => 'z.broj_resenja',
+                    'datum_prijema_zalbe' => 'z.datum_prijema_zalbe',
+                    'datum_resavanja' => 'z.datum_resavanja_na_zk',
+                    'status_zalbe' => 'z.status_zalbe',
+                    'institucija' => 'pz.institucija_podnosioca_zalbe',
+                    'osnov_zalbe' => 'soz.osnov_zalbe',
+                    'tipovi_resenja' => 'str.tip_resenja',
+                ];
+
+                $dbField = $fieldMap[$field] ?? null;
+
+                if ($dbField) {
+                    // Reuse the same filter logic
+                    $this->applyAdvancedFilterZalbe($query, $dbField, $operator, $value, $value2);
+                }
+            }
+        }
+
+        return $query->orderBy('z.datum_prijema_zalbe', 'desc');
     }
 }

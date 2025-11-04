@@ -30,7 +30,26 @@ class PodnosiocZalbeController extends Controller
             $query->where('institucija_podnosioca_zalbe', $request->institucija);
         }
 
-        $podnosioci = $query->orderBy('datum_unosa', 'desc')->paginate(10);
+        // Sorting
+        $sortBy = $request->input('sort_by', 'datum_unosa');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'ime_podnosioca_zalbe',
+            'prezime_podnosioca_zalbe',
+            'jmbg_podnosioca_zalbe',
+            'institucija_podnosioca_zalbe',
+            'datum_unosa'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('datum_unosa', 'desc');
+        }
+
+        $podnosioci = $query->paginate(10);
         return response()->json($podnosioci);
     }
 

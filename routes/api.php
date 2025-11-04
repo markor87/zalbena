@@ -28,6 +28,7 @@ Route::middleware('auth:web')->group(function () {
 
     // Zalbe routes
     Route::get('zalbe/export-pdf', [IzvestajController::class, 'exportZalbePdf']);
+    Route::get('zalbe/export-excel', [IzvestajController::class, 'exportZalbeExcel']);
     Route::apiResource('zalbe', ZalbaController::class);
 
     // Sifarnik routes

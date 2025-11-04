@@ -79,6 +79,16 @@
             Napredna pretraga
           </button>
           <button
+            @click="exportExcel"
+            class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200 flex items-center gap-2"
+            title="Izvezi u Excel"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Excel
+          </button>
+          <button
             @click="exportPdf"
             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 flex items-center gap-2"
             title="Izvezi u PDF"
@@ -99,13 +109,53 @@
           <thead class="bg-gray-50">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prijemni broj</th>
+              <th
+                @click="toggleSort('prijemni_broj')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  Prijemni broj
+                  <span v-if="sortBy === 'prijemni_broj'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Podnosilac žalbe</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institucija</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Datum prijema</th>
+              <th
+                @click="toggleSort('datum_prijema_zalbe')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  Datum prijema
+                  <span v-if="sortBy === 'datum_prijema_zalbe'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Osnov žalbe</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Broj rešenja</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th
+                @click="toggleSort('broj_resenja')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  Broj rešenja
+                  <span v-if="sortBy === 'broj_resenja'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
+              <th
+                @click="toggleSort('status_zalbe')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  Status
+                  <span v-if="sortBy === 'status_zalbe'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -1001,6 +1051,7 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import { useSorting } from '../composables/useSorting';
 
 const route = useRoute();
 const router = useRouter();
@@ -1032,6 +1083,9 @@ const lastPage = ref(1);
 const total = ref(0);
 const from = ref(0);
 const to = ref(0);
+
+// Sorting
+const { sortBy, sortDirection, toggleSort, getSortParams } = useSorting((page) => fetchZalbe(page));
 
 // Sifarnici
 const podnosioci = ref([]);
@@ -1215,6 +1269,21 @@ const resetFilters = () => {
   activeAdvancedFilters.value = [];
   advancedFilters.value = [];
   fetchZalbe(1);
+};
+
+const exportExcel = () => {
+  const params = new URLSearchParams();
+  if (searchQuery.value) {
+    params.append('search', searchQuery.value);
+  }
+  if (activeAdvancedFilters.value.length > 0) {
+    params.append('advanced_filters', JSON.stringify(activeAdvancedFilters.value));
+  }
+  if (selectedPodnosilacId.value) {
+    params.append('podnosilac_id', selectedPodnosilacId.value);
+  }
+  const url = `/api/zalbe/export-excel?${params.toString()}`;
+  window.location.href = url;
 };
 
 const exportPdf = () => {
@@ -1425,7 +1494,8 @@ const fetchZalbe = async (page = 1) => {
   try {
     const params = {
       page,
-      search: searchQuery.value
+      search: searchQuery.value,
+      ...getSortParams()
     };
 
     // Add podnosilac filter if active

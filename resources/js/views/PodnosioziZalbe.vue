@@ -46,9 +46,39 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ime i prezime</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">JMBG</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institucija</th>
+              <th
+                @click="toggleSort('ime_podnosioca_zalbe')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  Ime i prezime
+                  <span v-if="sortBy === 'ime_podnosioca_zalbe'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
+              <th
+                @click="toggleSort('jmbg_podnosioca_zalbe')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  JMBG
+                  <span v-if="sortBy === 'jmbg_podnosioca_zalbe'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
+              <th
+                @click="toggleSort('institucija_podnosioca_zalbe')"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
+              >
+                <div class="flex items-center gap-1">
+                  Institucija
+                  <span v-if="sortBy === 'institucija_podnosioca_zalbe'" class="text-blue-800">
+                    {{ sortDirection === 'asc' ? '↑' : '↓' }}
+                  </span>
+                </div>
+              </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Napomena</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
             </tr>
@@ -288,6 +318,7 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import { useSorting } from '../composables/useSorting';
 
 const router = useRouter();
 
@@ -312,6 +343,9 @@ const lastPage = ref(1);
 const total = ref(0);
 const from = ref(0);
 const to = ref(0);
+
+// Sorting
+const { sortBy, sortDirection, toggleSort, getSortParams } = useSorting((page) => fetchPodnosioci(page));
 
 const form = ref({
   ime_podnosioca_zalbe: '',
@@ -433,7 +467,8 @@ const fetchPodnosioci = async (page = 1) => {
     const response = await axios.get('/podnosioci-zalbe', {
       params: {
         page,
-        search: searchQuery.value
+        search: searchQuery.value,
+        ...getSortParams()
       }
     });
     podnosioci.value = response.data.data;
