@@ -3,8 +3,8 @@
     <!-- Header -->
     <div class="mb-6 flex items-center justify-between">
       <div>
-        <h2 class="text-3xl font-bold text-gray-800">Žalbe</h2>
-        <p class="text-gray-600 mt-2">Upravljajte žalbama</p>
+        <h2 class="text-3xl font-bold text-gray-800">Жалбе</h2>
+        <p class="text-gray-600 mt-2">Управљајте жалбама</p>
       </div>
       <button
         @click="openModal('create')"
@@ -13,7 +13,7 @@
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
-        <span>Dodaj žalbu</span>
+        <span>Додај жалбу</span>
       </button>
     </div>
 
@@ -33,7 +33,7 @@
                 <span class="font-medium">JMBG:</span> {{ selectedPodnosilacData.jmbg_podnosioca_zalbe }}
               </div>
               <div v-if="selectedPodnosilacData.institucija_podnosioca_zalbe">
-                <span class="font-medium">Institucija:</span> {{ selectedPodnosilacData.institucija_podnosioca_zalbe }}
+                <span class="font-medium">Институција:</span> {{ selectedPodnosilacData.institucija_podnosioca_zalbe }}
               </div>
             </div>
           </div>
@@ -41,7 +41,7 @@
         <button
           @click="clearPodnosilacFilter"
           class="text-gray-600 hover:text-gray-800 transition duration-200"
-          title="Prikaži sve žalbe"
+          title="Прикажи све жалбе"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -54,11 +54,11 @@
     <div class="bg-white rounded-xl shadow-md p-6 mb-6">
       <div class="flex items-end gap-4">
         <div class="w-80">
-          <label class="block text-sm font-medium text-gray-700 mb-2">Brza pretraga</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Брза претрага</label>
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Prijemni broj, broj rešenja..."
+            placeholder="Пријемни број, број решења..."
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
@@ -67,7 +67,7 @@
             @click="resetFilters"
             class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition duration-200"
           >
-            Resetuj
+            Ресетуј
           </button>
           <button
             @click="openAdvancedSearch"
@@ -76,12 +76,12 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
-            Napredna pretraga
+            Напредна претрага
           </button>
           <button
             @click="exportExcel"
             class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200 flex items-center gap-2"
-            title="Izvezi u Excel"
+            title="Извези у Excel"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -91,7 +91,7 @@
           <button
             @click="exportPdf"
             class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200 flex items-center gap-2"
-            title="Izvezi u PDF"
+            title="Извези у PDF"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
@@ -108,38 +108,38 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Akcije</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Акције</th>
               <th
                 @click="toggleSort('prijemni_broj')"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               >
                 <div class="flex items-center gap-1">
-                  Prijemni broj
+                  Пријемни број
                   <span v-if="sortBy === 'prijemni_broj'" class="text-blue-800">
                     {{ sortDirection === 'asc' ? '↑' : '↓' }}
                   </span>
                 </div>
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Podnosilac žalbe</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institucija</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Подносилац жалбе</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Институција</th>
               <th
                 @click="toggleSort('datum_prijema_zalbe')"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               >
                 <div class="flex items-center gap-1">
-                  Datum prijema
+                  Датум пријема
                   <span v-if="sortBy === 'datum_prijema_zalbe'" class="text-blue-800">
                     {{ sortDirection === 'asc' ? '↑' : '↓' }}
                   </span>
                 </div>
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Osnov žalbe</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Основ жалбе</th>
               <th
                 @click="toggleSort('broj_resenja')"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               >
                 <div class="flex items-center gap-1">
-                  Broj rešenja
+                  Број решења
                   <span v-if="sortBy === 'broj_resenja'" class="text-blue-800">
                     {{ sortDirection === 'asc' ? '↑' : '↓' }}
                   </span>
@@ -150,7 +150,7 @@
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors"
               >
                 <div class="flex items-center gap-1">
-                  Status
+                  Статус
                   <span v-if="sortBy === 'status_zalbe'" class="text-blue-800">
                     {{ sortDirection === 'asc' ? '↑' : '↓' }}
                   </span>
@@ -165,19 +165,19 @@
                   @click="viewDetails(zalba)"
                   class="text-blue-600 hover:text-blue-700 mr-3"
                 >
-                  Detalji
+                  Детаљи
                 </button>
                 <button
                   @click="openModal('edit', zalba)"
                   class="text-purple-600 hover:text-purple-900 mr-3"
                 >
-                  Izmeni
+                  Измени
                 </button>
                 <button
                   @click="deleteZalba(zalba.id)"
                   class="text-red-600 hover:text-red-900"
                 >
-                  Obriši
+                  Обриши
                 </button>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -211,7 +211,7 @@
       <!-- Pagination -->
       <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
         <div class="text-sm text-gray-700">
-          Prikazano <span class="font-medium">{{ from }}-{{ to }}</span> od <span class="font-medium">{{ total }}</span> ukupno
+          Приказано <span class="font-medium">{{ from }}-{{ to }}</span> од <span class="font-medium">{{ total }}</span> укупно
         </div>
         <div class="flex space-x-2">
           <button
@@ -219,17 +219,17 @@
             :disabled="currentPage === 1"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Prethodna
+            Претходна
           </button>
           <span class="px-3 py-1 text-sm text-gray-700">
-            Strana {{ currentPage }} od {{ lastPage }}
+            Страна {{ currentPage }} од {{ lastPage }}
           </span>
           <button
             @click="goToPage(currentPage + 1)"
             :disabled="currentPage === lastPage"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Sledeća
+            Следећа
           </button>
         </div>
       </div>
