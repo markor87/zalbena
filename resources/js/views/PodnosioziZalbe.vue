@@ -18,7 +18,7 @@
           </svg>
           <span>Додај подносиоца</span>
         </button>
-        <div class="flex-1">
+        <div class="w-64">
           <label class="block text-sm font-medium text-gray-700 mb-2">Претрага</label>
           <input
             v-model="searchQuery"

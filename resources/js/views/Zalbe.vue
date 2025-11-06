@@ -51,7 +51,7 @@
           </svg>
           <span>Додај жалбу</span>
         </button>
-        <div class="flex-1">
+        <div class="w-64">
           <label class="block text-sm font-medium text-gray-700 mb-2">Брза претрага</label>
           <input
             v-model="searchQuery"
