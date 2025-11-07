@@ -198,6 +198,7 @@
                   :enable-time-picker="false"
                   text-input
                   auto-apply
+                  :teleport="true"
                   input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
                 <input
@@ -217,6 +218,7 @@
                   :enable-time-picker="false"
                   text-input
                   auto-apply
+                  :teleport="true"
                   input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                 />
               </div>
@@ -436,7 +438,8 @@ const exportExcel = () => {
     params.append('advanced_filters', JSON.stringify(activeAdvancedFilters.value));
   }
 
-  window.location.href = `/api/izvestaj-datum-ekspedicije/export-excel?${params.toString()}`;
+  const baseURL = window.axios.defaults.baseURL || '/api';
+  window.location.href = `${baseURL}/izvestaj-datum-ekspedicije/export-excel?${params.toString()}`;
   showToastNotification('Excel извештај се преузима...', 'success');
 };
 
@@ -449,7 +452,8 @@ const exportPdf = () => {
     params.append('advanced_filters', JSON.stringify(activeAdvancedFilters.value));
   }
 
-  window.location.href = `/api/izvestaj-datum-ekspedicije/export-pdf?${params.toString()}`;
+  const baseURL = window.axios.defaults.baseURL || '/api';
+  window.location.href = `${baseURL}/izvestaj-datum-ekspedicije/export-pdf?${params.toString()}`;
   showToastNotification('PDF извештај се преузима...', 'success');
 };
 

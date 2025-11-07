@@ -394,7 +394,7 @@ class IzvestajController extends Controller
      */
     public function exportPoDatamuPrijemanExcel(Request $request)
     {
-        set_time_limit(120);
+        set_time_limit(480);
 
         $data = $this->getPoDatamuPrijemanQuery($request)->get();
 
@@ -439,7 +439,7 @@ class IzvestajController extends Controller
      */
     public function exportPoDatamuPrijemaPdf(Request $request)
     {
-        set_time_limit(120);
+        set_time_limit(480);
 
         $data = $this->getPoDatamuPrijemanQuery($request)->get();
 
@@ -668,7 +668,7 @@ class IzvestajController extends Controller
      */
     public function exportTuzbeOdUSExcel(Request $request)
     {
-        set_time_limit(120);
+        set_time_limit(480);
 
         $data = $this->getTuzbeOdUSQuery($request)->get();
 
@@ -713,7 +713,7 @@ class IzvestajController extends Controller
      */
     public function exportTuzbeOdUSPdf(Request $request)
     {
-        set_time_limit(120);
+        set_time_limit(480);
 
         $data = $this->getTuzbeOdUSQuery($request)->get();
 
@@ -1743,8 +1743,8 @@ class IzvestajController extends Controller
      */
     public function exportZalbePdf(Request $request)
     {
-        set_time_limit(300); // 5 minutes
-        ini_set('memory_limit', '512M'); // Increase memory
+        set_time_limit(480); // 8 minutes
+        ini_set('memory_limit', '1024M'); // Increase memory
 
         $data = $this->getZalbeExportQuery($request)->get();
 
@@ -1765,7 +1765,7 @@ class IzvestajController extends Controller
      */
     public function exportZalbeExcel(Request $request)
     {
-        set_time_limit(180); // 3 minutes
+        set_time_limit(480); // 8 minutes
 
         $data = $this->getZalbeExportQueryExtended($request)->get();
 

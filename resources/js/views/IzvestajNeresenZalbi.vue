@@ -187,7 +187,8 @@ const exportExcel = () => {
   if (searchQuery.value) {
     params.append('search', searchQuery.value);
   }
-  const url = `/api/izvestaj-neresene-zalbe/export-excel?${params.toString()}`;
+  const baseURL = window.axios.defaults.baseURL || '/api';
+  const url = `${baseURL}/izvestaj-neresene-zalbe/export-excel?${params.toString()}`;
   window.open(url, '_blank');
 };
 
@@ -196,7 +197,8 @@ const exportPdf = () => {
   if (searchQuery.value) {
     params.append('search', searchQuery.value);
   }
-  const url = `/api/izvestaj-neresene-zalbe/export-pdf?${params.toString()}`;
+  const baseURL = window.axios.defaults.baseURL || '/api';
+  const url = `${baseURL}/izvestaj-neresene-zalbe/export-pdf?${params.toString()}`;
   window.open(url, '_blank');
 };
 

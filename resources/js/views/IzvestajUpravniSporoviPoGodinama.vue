@@ -109,12 +109,14 @@ const fetchData = async () => {
 };
 
 const exportExcel = () => {
-  window.location.href = '/izvestaj-upravni-sporovi-po-godinama/export-excel';
+  const baseURL = window.axios.defaults.baseURL || '/api';
+  window.location.href = `${baseURL}/izvestaj-upravni-sporovi-po-godinama/export-excel`;
   showToastNotification('Excel фајл се преузима...');
 };
 
 const exportPdf = () => {
-  window.location.href = '/izvestaj-upravni-sporovi-po-godinama/export-pdf';
+  const baseURL = window.axios.defaults.baseURL || '/api';
+  window.location.href = `${baseURL}/izvestaj-upravni-sporovi-po-godinama/export-pdf`;
   showToastNotification('PDF фајл се преузима...');
 };
 
