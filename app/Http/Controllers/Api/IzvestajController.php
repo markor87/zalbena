@@ -44,9 +44,10 @@ class IzvestajController extends Controller
                 'inst_min.min_datum'
             )
             ->whereIn('z.status_zalbe', ['Нерешен', 'Упућен на допуну'])
-            ->orderBy('inst_min.min_datum', 'asc')
+            ->orderByRaw('inst_min.min_datum IS NULL, inst_min.min_datum ASC')
             ->orderBy('pz.institucija_podnosioca_zalbe', 'asc')
-            ->orderBy('z.datum_prijema_zalbe', 'asc');
+            ->orderBy('z.datum_prijema_zalbe', 'asc')
+            ->orderBy('z.prijemni_broj', 'asc');
 
         // Search functionality
         if ($request->has('search') && $request->search) {
@@ -92,12 +93,14 @@ class IzvestajController extends Controller
                 'z.datum_resavanja_na_zk',
                 'z.datum_isticanja_donosenje',
                 'soz.osnov_zalbe',
-                'z.status_zalbe'
+                'z.status_zalbe',
+                'inst_min.min_datum'
             )
             ->whereIn('z.status_zalbe', ['Нерешен', 'Упућен на допуну'])
-            ->orderBy('inst_min.min_datum', 'asc')
+            ->orderByRaw('inst_min.min_datum IS NULL, inst_min.min_datum ASC')
             ->orderBy('pz.institucija_podnosioca_zalbe', 'asc')
-            ->orderBy('z.datum_prijema_zalbe', 'asc');
+            ->orderBy('z.datum_prijema_zalbe', 'asc')
+            ->orderBy('z.prijemni_broj', 'asc');
 
         // Search functionality
         if ($request->has('search') && $request->search) {
@@ -1799,7 +1802,7 @@ class IzvestajController extends Controller
                         'Датум експедиције ДС органу' => $item->datum_ekspedicije_ds_organu ? date('d.m.Y', strtotime($item->datum_ekspedicije_ds_organu)) : '-',
                         'Датум истицања доношење' => $item->datum_isticanja_donosenje ? date('d.m.Y', strtotime($item->datum_isticanja_donosenje)) : '-',
                         'Рок за допуну' => $item->rok_za_dopunu ? date('d.m.Y', strtotime($item->rok_za_dopunu)) : '-',
-                        'Комисија ЗКВ' => $item->komisija_zkv ?? '-',
+                        'Комисија ЖКВ' => $item->komisija_zkv ?? '-',
                         'Чланови комисије 1' => $item->clanovi_komisije1 ?? '-',
                         'Чланови комисије 2' => $item->clanovi_komisije2 ?? '-',
                         'Накнада' => $item->naknada ?? '-',

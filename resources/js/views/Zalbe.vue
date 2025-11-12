@@ -257,7 +257,6 @@
                   <v-select
                     v-model="form.podnosioci_zalbe"
                     :options="podnosioci"
-                    :reduce="p => p.id"
                     :get-option-label="p => `${p.ime_podnosioca_zalbe} ${p.prezime_podnosioca_zalbe}`"
                     @search="searchPodnosioci"
                     placeholder="Изаберите подносиоца"
@@ -411,7 +410,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Комисија ЗКБ</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Комисија ЖКВ</label>
                     <v-select
                       v-model="form.komisije_zkv"
                       :options="clanoviKomisije"
@@ -669,7 +668,7 @@
                     <option value="datum_resavanja_na_zk">Датум решавања на ЗК</option>
                     <option value="datum_ekspedicije_ds_organu">Датум експедиције ДС органу</option>
                     <option value="izvestilac_sa_zalbama">Известилац са жалбама</option>
-                    <option value="komisije_zkv">Комисија ЗКБ</option>
+                    <option value="komisije_zkv">Комисија ЖКВ</option>
                     <option value="tipovi_resenja">Типови решења</option>
                     <option value="clanovi_komisije1">Члан комисије 1</option>
                     <option value="clanovi_komisije2">Члан комисије 2</option>
@@ -892,7 +891,7 @@
                   <p class="text-gray-900">{{ selectedZalba.izvestilac_sa_zalbama || '-' }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Комисија ЗКБ</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Комисија ЖКВ</label>
                   <p class="text-gray-900">{{ selectedZalba.komisije_zkv || '-' }}</p>
                 </div>
                 <div>
@@ -1170,9 +1169,9 @@ const openModal = (mode, zalba = null) => {
   if (mode === 'edit' && zalba) {
     form.value = { ...zalba };
 
-    // Ensure podnosioci_zalbe is just the ID, not the full object
+    // Store the full podnosilac object for v-select to display properly
     if (zalba.podnosilac) {
-      form.value.podnosioci_zalbe = zalba.podnosilac.id;
+      form.value.podnosioci_zalbe = zalba.podnosilac;
 
       // Make sure the podnosilac is in the podnosioci array for v-select to display
       const existingPodnosilac = podnosioci.value.find(p => p.id === zalba.podnosilac.id);
@@ -1180,9 +1179,11 @@ const openModal = (mode, zalba = null) => {
         podnosioci.value.unshift(zalba.podnosilac);
       }
     } else if (zalba.podnosioci_zalbe && typeof zalba.podnosioci_zalbe === 'number') {
-      form.value.podnosioci_zalbe = zalba.podnosioci_zalbe;
+      // If we only have an ID, we need to find the full object
+      const podnosilac = podnosioci.value.find(p => p.id === zalba.podnosioci_zalbe);
+      form.value.podnosioci_zalbe = podnosilac || zalba.podnosioci_zalbe;
     } else if (typeof zalba.podnosioci_zalbe === 'object') {
-      form.value.podnosioci_zalbe = zalba.podnosioci_zalbe.id;
+      form.value.podnosioci_zalbe = zalba.podnosioci_zalbe;
     }
 
     // Extract ID from osnov_zalbe relationship if it's an object
@@ -1211,7 +1212,7 @@ const openModal = (mode, zalba = null) => {
     resetForm();
     // Pre-select podnosilac if filtering by specific podnosilac
     if (selectedPodnosilacId.value && selectedPodnosilacData.value) {
-      form.value.podnosioci_zalbe = selectedPodnosilacId.value;
+      form.value.podnosioci_zalbe = selectedPodnosilacData.value;  // Store full object
       form.value.institucija = selectedPodnosilacData.value.institucija_podnosioca_zalbe || '';
 
       // Make sure the podnosilac is in the podnosioci array for v-select to display
@@ -1417,6 +1418,12 @@ const submitForm = async () => {
   try {
     // Format all date fields to yyyy-MM-dd before sending
     const formData = { ...form.value };
+
+    // Extract ID from podnosioci_zalbe if it's an object
+    if (typeof formData.podnosioci_zalbe === 'object' && formData.podnosioci_zalbe !== null) {
+      formData.podnosioci_zalbe = formData.podnosioci_zalbe.id;
+    }
+
     const dateFields = [
       'datum_prijema_zalbe', 'datum_vracanja_na_dopunu', 'rok_za_dopunu',
       'datum_prijema_dopune', 'datum_predaje_komisiji', 'datum_resavanja_na_zk',
@@ -1593,11 +1600,16 @@ watch(() => route.query.podnosilac_id, async (newPodnosilacId) => {
 }, { immediate: true });
 
 // Watch podnosioci_zalbe field to auto-update institucija
-watch(() => form.value.podnosioci_zalbe, (newPodnosilacId) => {
-  if (newPodnosilacId && podnosioci.value.length > 0) {
-    const selectedPodnosilac = podnosioci.value.find(p => p.id === newPodnosilacId);
-    if (selectedPodnosilac) {
-      form.value.institucija = selectedPodnosilac.institucija_podnosioca_zalbe || '';
+watch(() => form.value.podnosioci_zalbe, (newPodnosilac) => {
+  if (newPodnosilac) {
+    // Check if it's an object (full podnosilac) or just an ID
+    if (typeof newPodnosilac === 'object' && newPodnosilac !== null) {
+      form.value.institucija = newPodnosilac.institucija_podnosioca_zalbe || '';
+    } else if (typeof newPodnosilac === 'number' && podnosioci.value.length > 0) {
+      const selectedPodnosilac = podnosioci.value.find(p => p.id === newPodnosilac);
+      if (selectedPodnosilac) {
+        form.value.institucija = selectedPodnosilac.institucija_podnosioca_zalbe || '';
+      }
     }
   }
 });

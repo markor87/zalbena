@@ -21,7 +21,12 @@ class ZalbaController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('prijemni_broj', 'LIKE', "%{$search}%")
-                  ->orWhere('broj_resenja', 'LIKE', "%{$search}%");
+                  ->orWhere('broj_resenja', 'LIKE', "%{$search}%")
+                  ->orWhereHas('podnosilac', function($q) use ($search) {
+                      $q->where('ime_podnosioca_zalbe', 'LIKE', "%{$search}%")
+                        ->orWhere('prezime_podnosioca_zalbe', 'LIKE', "%{$search}%")
+                        ->orWhereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) LIKE ?", ["%{$search}%"]);
+                  });
             });
         }
 
@@ -78,6 +83,61 @@ class ZalbaController extends Controller
      */
     private function applyAdvancedFilter($query, $field, $operator, $value, $value2 = null)
     {
+        // Special handling for podnosioci_zalbe field to search by name
+        if ($field === 'podnosioci_zalbe') {
+            switch ($operator) {
+                case 'equals':
+                    $query->whereHas('podnosilac', function($q) use ($value) {
+                        $q->whereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) = ?", [$value]);
+                    });
+                    break;
+
+                case 'not_equals':
+                    $query->whereHas('podnosilac', function($q) use ($value) {
+                        $q->whereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) != ?", [$value]);
+                    });
+                    break;
+
+                case 'contains':
+                    $query->whereHas('podnosilac', function($q) use ($value) {
+                        $q->where(function($subQ) use ($value) {
+                            $subQ->where('ime_podnosioca_zalbe', 'LIKE', "%{$value}%")
+                                ->orWhere('prezime_podnosioca_zalbe', 'LIKE', "%{$value}%")
+                                ->orWhereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) LIKE ?", ["%{$value}%"]);
+                        });
+                    });
+                    break;
+
+                case 'starts_with':
+                    $query->whereHas('podnosilac', function($q) use ($value) {
+                        $q->where(function($subQ) use ($value) {
+                            $subQ->where('ime_podnosioca_zalbe', 'LIKE', "{$value}%")
+                                ->orWhereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) LIKE ?", ["{$value}%"]);
+                        });
+                    });
+                    break;
+
+                case 'ends_with':
+                    $query->whereHas('podnosilac', function($q) use ($value) {
+                        $q->where(function($subQ) use ($value) {
+                            $subQ->where('prezime_podnosioca_zalbe', 'LIKE', "%{$value}")
+                                ->orWhereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) LIKE ?", ["%{$value}"]);
+                        });
+                    });
+                    break;
+
+                case 'is_null':
+                    $query->whereNull($field);
+                    break;
+
+                case 'is_not_null':
+                    $query->whereNotNull($field);
+                    break;
+            }
+            return;
+        }
+
+        // Default handling for other fields
         switch ($operator) {
             case 'equals':
                 $query->where($field, '=', $value);

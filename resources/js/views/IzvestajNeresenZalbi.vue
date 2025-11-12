@@ -72,9 +72,9 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <template v-for="(group, institucija) in groupedResults" :key="institucija">
+            <template v-for="institucija in groupedResults.order" :key="institucija">
               <tr
-                v-for="(item, index) in group"
+                v-for="(item, index) in groupedResults.groups[institucija].items"
                 :key="item.prijemni_broj"
                 class="hover:bg-gray-50"
               >
@@ -112,7 +112,7 @@
               <!-- Total row for this institution -->
               <tr class="bg-gray-50">
                 <td class="px-6 py-3 font-bold text-gray-900">
-                  Укупно: {{ group.length }}
+                  Укупно: {{ groupedResults.groups[institucija].items.length }}
                 </td>
                 <td colspan="8"></td>
               </tr>
@@ -138,17 +138,25 @@ import axios from 'axios';
 const results = ref([]);
 const searchQuery = ref('');
 
-// Group results by institution
+// Group results by institution - maintains backend sorting order
 const groupedResults = computed(() => {
   const groups = {};
+  const order = []; // Track insertion order of institutions
+
   results.value.forEach(item => {
     const institucija = item.institucija_podnosioca_zalbe || '-';
     if (!groups[institucija]) {
-      groups[institucija] = [];
+      groups[institucija] = {
+        items: [],
+        minDatum: item.min_datum // Store min_datum for each institution
+      };
+      order.push(institucija);
     }
-    groups[institucija].push(item);
+    groups[institucija].items.push(item);
   });
-  return groups;
+
+  // Return object with guaranteed order
+  return { groups, order };
 });
 
 const formatDate = (date) => {
