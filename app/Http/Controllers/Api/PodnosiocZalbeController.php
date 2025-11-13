@@ -132,8 +132,18 @@ class PodnosiocZalbeController extends Controller
     public function destroy(string $id)
     {
         $podnosilac = PodnosiocZalbe::findOrFail($id);
+
+        // Check if podnosilac has any zalbe
+        $zalbeCount = \App\Models\Zalba::where('podnosioci_zalbe', $id)->count();
+
+        if ($zalbeCount > 0) {
+            return response()->json([
+                'message' => "Не можете обрисати подносиоца који има {$zalbeCount} активних жалби. Прво обришите све жалбе овог подносиоца."
+            ], 422); // 422 Unprocessable Entity
+        }
+
         $podnosilac->delete();
 
-        return response()->json(['message' => 'Podnosilac uspešno obrisan.']);
+        return response()->json(['message' => 'Подносилац успешно обрисан.']);
     }
 }

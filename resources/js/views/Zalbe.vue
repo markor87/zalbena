@@ -241,7 +241,7 @@
     <teleport to="body">
       <div v-if="showModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
-          <div class="p-6 border-b border-gray-200">
+          <div class="p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
             <h3 class="text-2xl font-bold text-gray-800">
               {{ modalMode === 'create' ? 'Додај нову жалбу' : 'Измени жалбу' }}
             </h3>
@@ -603,7 +603,7 @@
               </div>
             </template>
 
-            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200 sticky bottom-0 bg-white p-6">
               <button
                 type="button"
                 @click="closeModal"
@@ -1285,7 +1285,7 @@ const exportExcel = () => {
   if (selectedPodnosilacId.value) {
     params.append('podnosilac_id', selectedPodnosilacId.value);
   }
-  const url = `/api/zalbe/export-excel?${params.toString()}`;
+  const url = `${import.meta.env.VITE_API_BASE_URL || ''}/api/zalbe/export-excel?${params.toString()}`;
   window.location.href = url;
 };
 
@@ -1300,7 +1300,7 @@ const exportPdf = () => {
   if (selectedPodnosilacId.value) {
     params.append('podnosilac_id', selectedPodnosilacId.value);
   }
-  const url = `/api/zalbe/export-pdf?${params.toString()}`;
+  const url = `${import.meta.env.VITE_API_BASE_URL || ''}/api/zalbe/export-pdf?${params.toString()}`;
   window.open(url, '_blank');
 };
 

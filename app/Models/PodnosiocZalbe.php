@@ -19,4 +19,12 @@ class PodnosiocZalbe extends Model
 
     const CREATED_AT = 'datum_unosa';
     const UPDATED_AT = 'datum_azuriranja';
+
+    /**
+     * Get all zalbe for this podnosilac
+     */
+    public function zalbe()
+    {
+        return $this->hasMany(\App\Models\Zalba::class, 'podnosioci_zalbe');
+    }
 }
