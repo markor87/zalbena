@@ -501,7 +501,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум експедиције одговора ЗК</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум експедиције одговора ЖК</label>
                     <VueDatePicker
                       v-model="form.datum_ekspedicije_odgovora_zk"
                       format="dd.MM.yyyy"
@@ -558,7 +558,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум решења ЗК по пресуди УС</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум решења ЖК по пресуди УС</label>
                     <VueDatePicker
                       v-model="form.datum_resenja_zk_po_presudi_us"
                       format="dd.MM.yyyy"
@@ -570,7 +570,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Број решења ЗК по пресуди УС</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Број решења ЖК по пресуди УС</label>
                     <input
                       v-model="form.broj_resenja_zk_po_presudi_us"
                       type="text"
@@ -675,13 +675,13 @@
                     <option value="datum_isticanja_donosenje">Датум истицања доношење</option>
                     <option value="status_zalbe">Статус жалбе</option>
                     <option value="datum_prijema_tuzbe_od_us">Датум пријема тужбе од УС</option>
-                    <option value="datum_ekspedicije_odgovora_zk">Датум експедиције одговора ЗК</option>
+                    <option value="datum_ekspedicije_odgovora_zk">Датум експедиције одговора ЖК</option>
                     <option value="datum_prijema_odluke_us">Датум пријема одлуке УС</option>
                     <option value="tipovi_presude_us">Тип пресуде УС</option>
                     <option value="broj_odluke_us">Број одлуке УС</option>
                     <option value="datum_donosenja_odluke_us">Датум доношења одлуке УС</option>
-                    <option value="datum_resenja_zk_po_presudi_us">Датум решења ЗК по пресуди УС</option>
-                    <option value="broj_resenja_zk_po_presudi_us">Број решења ЗК по пресуди УС</option>
+                    <option value="datum_resenja_zk_po_presudi_us">Датум решења ЖК по пресуди УС</option>
+                    <option value="broj_resenja_zk_po_presudi_us">Број решења ЖК по пресуди УС</option>
                     <option value="naknada">Накнада</option>
                     <option value="dostavnica">Достављeница</option>
                   </select>
@@ -925,7 +925,7 @@
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_prijema_tuzbe_od_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум експедиције одговора ЗК</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум експедиције одговора ЖК</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_ekspedicije_odgovora_zk) }}</p>
                 </div>
                 <div>
@@ -945,11 +945,11 @@
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_donosenja_odluke_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум решења ЗК по пресуди УС</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум решења ЖК по пресуди УС</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_resenja_zk_po_presudi_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Број решења ЗК по пресуди УС</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Број решења ЖК по пресуди УС</label>
                   <p class="text-gray-900">{{ selectedZalba.broj_resenja_zk_po_presudi_us || '-' }}</p>
                 </div>
                 <div>
