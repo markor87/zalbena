@@ -6,11 +6,11 @@
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
-            font-size: 10px;
+            font-size: 11px;
         }
         h1 {
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
             margin-bottom: 20px;
         }
         table {
@@ -26,10 +26,12 @@
         th {
             background-color: #f3f4f6;
             font-weight: bold;
+            font-size: 12px;
         }
         .total-row {
             background-color: #e5e7eb;
             font-weight: bold;
+            font-size: 14px;
         }
     </style>
 </head>

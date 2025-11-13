@@ -6,11 +6,11 @@
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
-            font-size: 9px;
+            font-size: 11px;
         }
         h1 {
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
             margin-bottom: 20px;
         }
         table {
@@ -20,12 +20,13 @@
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 6px;
+            padding: 8px;
             text-align: left;
         }
         th {
             background-color: #f3f4f6;
             font-weight: bold;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -58,7 +59,7 @@
         </tbody>
     </table>
 
-    <p style="margin-top: 20px; text-align: center; font-size: 8px;">
+    <p style="margin-top: 20px; text-align: center; font-size: 14px; font-weight: bold;">
         Укупно записа: {{ count($data) }}
     </p>
 </body>

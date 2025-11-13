@@ -6,11 +6,11 @@
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
-            font-size: 9px;
+            font-size: 11px;
         }
         h1 {
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
             margin-bottom: 20px;
         }
         table {
@@ -20,26 +20,32 @@
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 6px;
+            padding: 8px;
             text-align: left;
         }
         th {
             background-color: #f3f4f6;
             font-weight: bold;
+            font-size: 12px;
+        }
+        .ukupno-row {
+            font-weight: bold;
+            background-color: #f9fafb;
+            font-size: 14px;
         }
         .status-neresen {
             background-color: #fee2e2;
             color: #991b1b;
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 8px;
+            font-size: 10px;
         }
         .status-upucen {
             background-color: #ffedd5;
             color: #c2410c;
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 8px;
+            font-size: 10px;
         }
     </style>
 </head>
@@ -87,7 +93,7 @@
                 @endforeach
 
                 {{-- Total row for this institution --}}
-                <tr style="font-weight: bold; background-color: #f9fafb;">
+                <tr class="ukupno-row">
                     <td>Укупно: {{ count($items) }}</td>
                     <td colspan="8"></td>
                 </tr>
@@ -95,7 +101,7 @@
         </tbody>
     </table>
 
-    <p style="margin-top: 20px; text-align: center; font-size: 8px;">
+    <p style="margin-top: 20px; text-align: center; font-size: 14px; font-weight: bold;">
         Укупно записа: {{ count($data) }}
     </p>
 </body>

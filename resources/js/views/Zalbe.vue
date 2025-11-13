@@ -172,6 +172,13 @@
                   Измени
                 </button>
                 <button
+                  @click="copyZalba(zalba)"
+                  class="text-green-600 hover:text-green-900 mr-3"
+                  title="Копирај жалбу"
+                >
+                  Копирај
+                </button>
+                <button
                   @click="deleteZalba(zalba.id)"
                   class="text-red-600 hover:text-red-900"
                 >
@@ -1222,6 +1229,61 @@ const openModal = (mode, zalba = null) => {
       }
     }
   }
+  showModal.value = true;
+};
+
+const copyZalba = (zalba) => {
+  modalMode.value = 'create';
+
+  // Copy all fields from the existing zalba
+  form.value = { ...zalba };
+
+  // Clear ID and timestamp fields (we want a new record)
+  delete form.value.id;
+  delete form.value.datum_unosa;
+  delete form.value.datum_azuriranja;
+  delete form.value.created_at;
+  delete form.value.updated_at;
+
+  // Keep prijemni_broj and all other fields copied for user convenience
+
+  // Handle podnosilac relationship
+  if (zalba.podnosilac) {
+    form.value.podnosioci_zalbe = zalba.podnosilac;
+
+    const existingPodnosilac = podnosioci.value.find(p => p.id === zalba.podnosilac.id);
+    if (!existingPodnosilac) {
+      podnosioci.value.unshift(zalba.podnosilac);
+    }
+  } else if (zalba.podnosioci_zalbe && typeof zalba.podnosioci_zalbe === 'number') {
+    const podnosilac = podnosioci.value.find(p => p.id === zalba.podnosioci_zalbe);
+    form.value.podnosioci_zalbe = podnosilac || zalba.podnosioci_zalbe;
+  } else if (typeof zalba.podnosioci_zalbe === 'object') {
+    form.value.podnosioci_zalbe = zalba.podnosioci_zalbe;
+  }
+
+  // Extract ID from osnov_zalbe relationship if it's an object
+  if (typeof zalba.osnov_zalbe === 'object' && zalba.osnov_zalbe !== null) {
+    form.value.osnov_zalbe = zalba.osnov_zalbe.id;
+  } else if (typeof zalba.osnov_zalbe === 'number') {
+    form.value.osnov_zalbe = zalba.osnov_zalbe;
+  }
+
+  // Convert all date fields from ISO format to yyyy-MM-dd
+  const dateFields = [
+    'datum_prijema_zalbe', 'datum_vracanja_na_dopunu', 'rok_za_dopunu',
+    'datum_prijema_dopune', 'datum_predaje_komisiji', 'datum_resavanja_na_zk',
+    'datum_ekspedicije_ds_organu', 'datum_isticanja_donosenje', 'datum_prijema_tuzbe_od_us',
+    'datum_ekspedicije_odgovora_zk', 'datum_prijema_odluke_us',
+    'datum_donosenja_odluke_us', 'datum_resenja_zk_po_presudi_us', 'dostavnica'
+  ];
+
+  dateFields.forEach(field => {
+    if (form.value[field]) {
+      form.value[field] = form.value[field].split('T')[0];
+    }
+  });
+
   showModal.value = true;
 };
 
