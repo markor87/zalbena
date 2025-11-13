@@ -250,7 +250,7 @@
           <form @submit.prevent="submitForm" class="p-6 space-y-6">
             <!-- SEKCIJA 1: Основни подаци жалбе -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h4 class="text-lg font-semibold text-gray-800 mb-4">Основни подаци жалбе</h4>
+<!--              <h4 class="text-lg font-semibold text-gray-800 mb-4">Основни подаци жалбе</h4>-->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Подносилац жалбе *</label>
@@ -359,7 +359,7 @@
             <template v-if="modalMode === 'edit'">
               <!-- SEKCIJA 2: Komisija i upravni sud -->
               <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <h4 class="text-lg font-semibold text-gray-800 mb-4">Komisija i upravni sud</h4>
+<!--                <h4 class="text-lg font-semibold text-gray-800 mb-4">Komisija i upravni sud</h4>-->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Датум предаје комисији</label>
@@ -374,7 +374,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум решавања на ЗК</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Датум решавања на ЖК</label>
                     <VueDatePicker
                       v-model="form.datum_resavanja_na_zk"
                       format="dd.MM.yyyy"
@@ -486,7 +486,7 @@
 
               <!-- SEKCIJA 3: Tužba upućena Upravnom sudu Srbije -->
               <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <h4 class="text-lg font-semibold text-gray-800 mb-4">Tužba upućena Upravnom sudu Srbije</h4>
+<!--                <h4 class="text-lg font-semibold text-gray-800 mb-4">Tužba upućena Upravnom sudu Srbije</h4>-->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Датум пријема тужбе од УС</label>
@@ -570,7 +570,7 @@
                   </div>
 
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Број решења ZK po presudi US</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Број решења ЗК по пресуди УС</label>
                     <input
                       v-model="form.broj_resenja_zk_po_presudi_us"
                       type="text"
@@ -630,8 +630,8 @@
           <!-- Header -->
           <div class="p-6 border-b flex items-center justify-between bg-purple-50">
             <div>
-              <h3 class="text-2xl font-bold text-gray-800">Napredna pretraga</h3>
-              <p class="text-sm text-gray-600 mt-1">Kreirajte složene filtere za pretragu žalbi</p>
+              <h3 class="text-2xl font-bold text-gray-800">Напредна претрага</h3>
+              <p class="text-sm text-gray-600 mt-1">Креирајте сложене филтере за претрагу жалби</p>
             </div>
             <button @click="closeAdvancedSearch" class="text-gray-400 hover:text-gray-600">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -653,11 +653,11 @@
                     @change="onFieldChange(index)"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   >
-                    <option value="">Izaberite polje</option>
+                    <option value="">Изаберите поље</option>
                     <option value="prijemni_broj">Пријемни број</option>
                     <option value="broj_resenja">Број решења</option>
                     <option value="podnosioci_zalbe">Подносилац жалбе</option>
-                    <option value="institucija">Institucija</option>
+                    <option value="institucija">Институција</option>
                     <option value="datum_prijema_zalbe">Датум пријема жалбе</option>
                     <option value="datum_vracanja_na_dopunu">Датум враћања на допуну</option>
                     <option value="rok_za_dopunu">Рок за допуну</option>
@@ -665,7 +665,7 @@
                     <option value="osnov_zalbe">Основ жалбе</option>
                     <option value="napomena">Напомена</option>
                     <option value="datum_predaje_komisiji">Датум предаје комисији</option>
-                    <option value="datum_resavanja_na_zk">Датум решавања на ЗК</option>
+                    <option value="datum_resavanja_na_zk">Датум решавања на ЖК</option>
                     <option value="datum_ekspedicije_ds_organu">Датум експедиције ДС органу</option>
                     <option value="izvestilac_sa_zalbama">Известилац са жалбама</option>
                     <option value="komisije_zkv">Комисија ЖКВ</option>
@@ -681,7 +681,7 @@
                     <option value="broj_odluke_us">Број одлуке УС</option>
                     <option value="datum_donosenja_odluke_us">Датум доношења одлуке УС</option>
                     <option value="datum_resenja_zk_po_presudi_us">Датум решења ЗК по пресуди УС</option>
-                    <option value="broj_resenja_zk_po_presudi_us">Број решења ZK po presudi US</option>
+                    <option value="broj_resenja_zk_po_presudi_us">Број решења ЗК по пресуди УС</option>
                     <option value="naknada">Накнада</option>
                     <option value="dostavnica">Достављeница</option>
                   </select>
@@ -694,24 +694,24 @@
                     v-model="filter.operator"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   >
-                    <option value="">Izaberite operator</option>
+                    <option value="">Изаберите оператор</option>
                     <template v-if="getFieldType(filter.field) === 'text'">
-                      <option value="equals">Jednak</option>
-                      <option value="not_equals">Nije jednak</option>
-                      <option value="contains">Sadrži</option>
-                      <option value="starts_with">Počinje sa</option>
-                      <option value="ends_with">Završava se sa</option>
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="contains">Садржи</option>
+                      <option value="starts_with">Почиње са</option>
+                      <option value="ends_with">Завршава се са</option>
                     </template>
                     <template v-if="getFieldType(filter.field) === 'date'">
-                      <option value="equals">Jednak</option>
-                      <option value="not_equals">Nije jednak</option>
-                      <option value="between">Između</option>
-                      <option value="greater_than">Veći od</option>
-                      <option value="less_than">Manji od</option>
-                      <option value="greater_or_equal">Veći ili jednak</option>
-                      <option value="less_or_equal">Manji ili jednak</option>
-                      <option value="is_null">Prazan</option>
-                      <option value="is_not_null">Nije prazan</option>
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="between">Између</option>
+                      <option value="greater_than">Већи од</option>
+                      <option value="less_than">Мањи од</option>
+                      <option value="greater_or_equal">Већи или једнак</option>
+                      <option value="less_or_equal">Мањи или једнак</option>
+                      <option value="is_null">Празан</option>
+                      <option value="is_not_null">Није празан</option>
                     </template>
                   </select>
                 </div>
@@ -740,7 +740,7 @@
 
                 <!-- Second Value for "Between" -->
                 <div class="flex-1" v-if="filter.operator === 'between'">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Do</label>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
                   <VueDatePicker
                     v-model="filter.value2"
                     format="dd.MM.yyyy"
@@ -756,7 +756,7 @@
                 <button
                   @click="removeFilter(index)"
                   class="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition"
-                  title="Ukloni filter"
+                  title="Уклони филтер"
                 >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -773,7 +773,7 @@
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
-              Додај filter
+              Додај филтер
             </button>
           </div>
 
@@ -783,7 +783,7 @@
               @click="resetAdvancedFilters"
               class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
             >
-              Resetuj filtere
+              Ресетуј филтере
             </button>
             <div class="flex gap-3">
               <button
@@ -796,7 +796,7 @@
                 @click="applyAdvancedSearch"
                 class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition"
               >
-                Primeni pretragu
+                Примени претрагу
               </button>
             </div>
           </div>
@@ -809,7 +809,7 @@
       <div v-if="showDetailsModal && selectedZalba" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
           <div class="p-6 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
-            <h3 class="text-2xl font-bold text-gray-800">Detalji žalbe</h3>
+            <h3 class="text-2xl font-bold text-gray-800">Детаљи жалбе</h3>
             <button @click="closeDetailsModal" class="text-gray-500 hover:text-gray-700 transition">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -820,7 +820,7 @@
           <div class="p-6 space-y-6">
             <!-- SEKCIJA 1: Основни подаци жалбе -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h4 class="text-lg font-semibold text-gray-800 mb-4">Основни подаци жалбе</h4>
+<!--              <h4 class="text-lg font-semibold text-gray-800 mb-4">Основни подаци жалбе</h4>-->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Подносилац жалбе</label>
@@ -866,20 +866,20 @@
 
               <div class="mt-4 bg-white p-4 rounded-lg border border-gray-200">
                 <label class="block text-sm font-medium text-gray-500 mb-2">Напомена</label>
-                <p class="text-gray-900 whitespace-pre-wrap">{{ selectedZalba.napomena || 'Nema napomene' }}</p>
+                <p class="text-gray-900 whitespace-pre-wrap">{{ selectedZalba.napomena || 'Нема напомене' }}</p>
               </div>
             </div>
 
             <!-- SEKCIJA 2: Komisija i upravni sud -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h4 class="text-lg font-semibold text-gray-800 mb-4">Komisija i upravni sud</h4>
+<!--              <h4 class="text-lg font-semibold text-gray-800 mb-4">Komisija i upravni sud</h4>-->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Датум предаје комисији</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_predaje_komisiji) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум решавања на ЗК</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Датум решавања на ЖК</label>
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_resavanja_na_zk) }}</p>
                 </div>
                 <div>
@@ -918,7 +918,7 @@
 
             <!-- SEKCIJA 3: Tužba upućena Upravnom sudu Srbije -->
             <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
-              <h4 class="text-lg font-semibold text-gray-800 mb-4">Tužba upućena Upravnom sudu Srbije</h4>
+<!--              <h4 class="text-lg font-semibold text-gray-800 mb-4">Tužba upućena Upravnom sudu Srbije</h4>-->
               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Датум пријема тужбе од УС</label>
@@ -949,7 +949,7 @@
                   <p class="text-gray-900">{{ formatDate(selectedZalba.datum_resenja_zk_po_presudi_us) }}</p>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-500 mb-1">Број решења ZK po presudi US</label>
+                  <label class="block text-sm font-medium text-gray-500 mb-1">Број решења ЗК по пресуди УС</label>
                   <p class="text-gray-900">{{ selectedZalba.broj_resenja_zk_po_presudi_us || '-' }}</p>
                 </div>
                 <div>
@@ -969,7 +969,7 @@
               @click="closeDetailsModal"
               class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
             >
-              Zatvori
+              Затвори
             </button>
           </div>
         </div>
@@ -986,8 +986,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Potvrda brisanja</h3>
-            <p class="text-gray-600 text-center mb-6">Da li ste sigurni da želite da obrišete ovu žalbu?</p>
+            <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Потврда брисања</h3>
+            <p class="text-gray-600 text-center mb-6">Да ли сте сигурни да желите да обришете ову жалбу?</p>
             <div class="flex gap-3">
               <button
                 @click="cancelDelete"
@@ -999,7 +999,7 @@
                 @click="confirmDelete"
                 class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-200"
               >
-                Obriši
+                Обриши
               </button>
             </div>
           </div>
@@ -1322,7 +1322,12 @@ const loadPodnosilacData = async (podnosilacId) => {
 
 // Advanced Search functions
 const openAdvancedSearch = () => {
-  advancedFilters.value = [{ field: '', operator: '', value: '', value2: '' }];
+  // Restore previously applied filters if they exist
+  if (activeAdvancedFilters.value.length > 0) {
+    advancedFilters.value = JSON.parse(JSON.stringify(activeAdvancedFilters.value));
+  } else {
+    advancedFilters.value = [{ field: '', operator: '', value: '', value2: '' }];
+  }
   showAdvancedSearch.value = true;
 };
 
