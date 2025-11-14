@@ -477,6 +477,7 @@ const fetchPodnosioci = async (page = 1) => {
     to.value = response.data.to;
   } catch (error) {
     console.error('Error fetching podnosioci:', error);
+    showToastNotification('Грешка при учитавању подносилаца. Молимо покушајте поново.', 'error');
   }
 };
 
@@ -492,6 +493,7 @@ const fetchOrgani = async () => {
     organi.value = response.data;
   } catch (error) {
     console.error('Error fetching organi:', error);
+    showToastNotification('Грешка при учитавању органа. Молимо освежите страницу.', 'error');
   }
 };
 

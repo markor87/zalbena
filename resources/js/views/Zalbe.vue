@@ -1379,6 +1379,7 @@ const loadPodnosilacData = async (podnosilacId) => {
     selectedPodnosilacData.value = response.data;
   } catch (error) {
     console.error('Error loading podnosilac data:', error);
+    showToastNotification('Грешка при учитавању података подносиоца.', 'error');
   }
 };
 
@@ -1593,6 +1594,7 @@ const fetchZalbe = async (page = 1) => {
     to.value = response.data.to;
   } catch (error) {
     console.error('Error fetching zalbe:', error);
+    showToastNotification('Грешка при учитавању жалби. Молимо покушајте поново.', 'error');
   }
 };
 
@@ -1613,6 +1615,7 @@ const searchPodnosioci = async (searchQuery, loading) => {
     podnosioci.value = response.data;
   } catch (error) {
     console.error('Error searching podnosioci:', error);
+    showToastNotification('Грешка при претрази подносилаца.', 'error');
   } finally {
     if (loading) {
       loading(false);
@@ -1646,6 +1649,7 @@ const fetchSifarnici = async () => {
     tipoviPresude.value = tipoviPresudeRes.data;
   } catch (error) {
     console.error('Error fetching sifarnici:', error);
+    showToastNotification('Грешка при учитавању шифарника. Молимо освежите страницу.', 'error');
   }
 };
 
