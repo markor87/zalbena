@@ -21,7 +21,8 @@ class PodnosiocZalbeController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('ime_podnosioca_zalbe', 'LIKE', "%{$search}%")
                   ->orWhere('prezime_podnosioca_zalbe', 'LIKE', "%{$search}%")
-                  ->orWhere('jmbg_podnosioca_zalbe', 'LIKE', "%{$search}%");
+                  ->orWhere('jmbg_podnosioca_zalbe', 'LIKE', "%{$search}%")
+                  ->orWhereRaw("CONCAT(ime_podnosioca_zalbe, ' ', prezime_podnosioca_zalbe) LIKE ?", ["%{$search}%"]);
             });
         }
 
