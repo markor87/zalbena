@@ -422,7 +422,7 @@
                       v-model="form.komisije_zkv"
                       :options="clanoviKomisije"
                       :reduce="c => c.id"
-                      :get-option-label="c => `${c.ime} ${c.prezime}`"
+                      :get-option-label="c => c?.ime ? `${c.ime} ${c.prezime}` : String(form.komisije_zkv || c)"
                       placeholder="Изаберите комисију"
                       class="vue-select-custom"
                     />
@@ -445,7 +445,7 @@
                     <v-select
                       v-model="form.clanovi_komisije1"
                       :options="clanoviKomisije"
-                      :reduce="c => `${c.ime} ${c.prezime}`"
+                      :reduce="c => c.id"
                       :get-option-label="c => `${c.ime} ${c.prezime}`"
                       placeholder="Изаберите члана"
                       class="vue-select-custom"
@@ -457,7 +457,7 @@
                     <v-select
                       v-model="form.clanovi_komisije2"
                       :options="clanoviKomisije"
-                      :reduce="c => `${c.ime} ${c.prezime}`"
+                      :reduce="c => c.id"
                       :get-option-label="c => `${c.ime} ${c.prezime}`"
                       placeholder="Изаберите члана"
                       class="vue-select-custom"
@@ -895,23 +895,23 @@
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Известилац са жалбама</label>
-                  <p class="text-gray-900">{{ selectedZalba.izvestilac_sa_zalbama || '-' }}</p>
+                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.izvestilac_sa_zalbama) }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Комисија ЖКВ</label>
-                  <p class="text-gray-900">{{ selectedZalba.komisije_zkv || '-' }}</p>
+                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.komisije_zkv) }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Типови решења</label>
-                  <p class="text-gray-900">{{ selectedZalba.tipResenja?.tip_resenja || selectedZalba.tipovi_resenja || '-' }}</p>
+                  <p class="text-gray-900">{{ getTipResenjaName(selectedZalba.tipovi_resenja) }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Члан комисије 1</label>
-                  <p class="text-gray-900">{{ selectedZalba.clanovi_komisije1 || '-' }}</p>
+                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.clanovi_komisije1) }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Члан комисије 2</label>
-                  <p class="text-gray-900">{{ selectedZalba.clanovi_komisije2 || '-' }}</p>
+                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.clanovi_komisije2) }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Статус жалбе</label>
@@ -1171,7 +1171,29 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('sr-RS');
 };
 
-const openModal = (mode, zalba = null) => {
+// Helper function to get clan komisije name by ID (handles both int and numeric string)
+const getClanKomisjeName = (id) => {
+  if (!id) return '-';
+  // Convert string to int if needed (database TEXT columns may contain "1", "2", etc)
+  const numId = typeof id === 'string' ? parseInt(id) : id;
+  const clan = clanoviKomisije.value.find(c => c.id === numId);
+  // Return name if found, otherwise return the ID number (for missing sifarnik entries)
+  return clan ? `${clan.ime} ${clan.prezime}` : String(numId);
+};
+
+// Helper function to get tip resenja name by ID
+const getTipResenjaName = (id) => {
+  if (!id) return '-';
+  const tip = tipoviResenja.value.find(t => t.id === id);
+  return tip ? tip.tip_resenja : '-';
+};
+
+const openModal = async (mode, zalba = null) => {
+  // Ensure sifarnici are loaded before opening modal
+  if (clanoviKomisije.value.length === 0 || tipoviResenja.value.length === 0) {
+    await fetchSifarnici();
+  }
+
   modalMode.value = mode;
   if (mode === 'edit' && zalba) {
     form.value = { ...zalba };
@@ -1198,6 +1220,23 @@ const openModal = (mode, zalba = null) => {
       form.value.osnov_zalbe = zalba.osnov_zalbe.id;
     } else if (typeof zalba.osnov_zalbe === 'number') {
       form.value.osnov_zalbe = zalba.osnov_zalbe;
+    }
+
+    // Convert komisija fields to INT (they may be stored as TEXT with numeric strings in database)
+    if (zalba.komisije_zkv) {
+      form.value.komisije_zkv = typeof zalba.komisije_zkv === 'string' ? parseInt(zalba.komisije_zkv) : zalba.komisije_zkv;
+    }
+    if (zalba.izvestilac_sa_zalbama) {
+      form.value.izvestilac_sa_zalbama = typeof zalba.izvestilac_sa_zalbama === 'string' ? parseInt(zalba.izvestilac_sa_zalbama) : zalba.izvestilac_sa_zalbama;
+    }
+    if (zalba.clanovi_komisije1) {
+      form.value.clanovi_komisije1 = typeof zalba.clanovi_komisije1 === 'string' ? parseInt(zalba.clanovi_komisije1) : zalba.clanovi_komisije1;
+    }
+    if (zalba.clanovi_komisije2) {
+      form.value.clanovi_komisije2 = typeof zalba.clanovi_komisije2 === 'string' ? parseInt(zalba.clanovi_komisije2) : zalba.clanovi_komisije2;
+    }
+    if (zalba.tipovi_resenja) {
+      form.value.tipovi_resenja = typeof zalba.tipovi_resenja === 'string' ? parseInt(zalba.tipovi_resenja) : zalba.tipovi_resenja;
     }
 
     // Convert all date fields from ISO format to yyyy-MM-dd
