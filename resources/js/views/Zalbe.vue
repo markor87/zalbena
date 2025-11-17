@@ -895,23 +895,23 @@
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Известилац са жалбама</label>
-                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.izvestilac_sa_zalbama) }}</p>
+                  <p class="text-gray-900">{{ selectedZalba.izvestilac ? `${selectedZalba.izvestilac.ime} ${selectedZalba.izvestilac.prezime}` : '-' }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Комисија ЖКВ</label>
-                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.komisije_zkv) }}</p>
+                  <p class="text-gray-900">{{ selectedZalba.komisija_zkv ? `${selectedZalba.komisija_zkv.ime} ${selectedZalba.komisija_zkv.prezime}` : '-' }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Типови решења</label>
-                  <p class="text-gray-900">{{ getTipResenjaName(selectedZalba.tipovi_resenja) }}</p>
+                  <p class="text-gray-900">{{ selectedZalba.tip_resenja?.tip_resenja || '-' }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Члан комисије 1</label>
-                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.clanovi_komisije1) }}</p>
+                  <p class="text-gray-900">{{ selectedZalba.clan_komisije1 ? `${selectedZalba.clan_komisije1.ime} ${selectedZalba.clan_komisije1.prezime}` : '-' }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Члан комисије 2</label>
-                  <p class="text-gray-900">{{ getClanKomisjeName(selectedZalba.clanovi_komisije2) }}</p>
+                  <p class="text-gray-900">{{ selectedZalba.clan_komisije2 ? `${selectedZalba.clan_komisije2.ime} ${selectedZalba.clan_komisije2.prezime}` : '-' }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Статус жалбе</label>
@@ -941,7 +941,7 @@
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Тип пресуде УС</label>
-                  <p class="text-gray-900">{{ selectedZalba.tipPresude?.tip_presude || selectedZalba.tipovi_presude_us || '-' }}</p>
+                  <p class="text-gray-900">{{ getTipoviPresudeUsName(selectedZalba.tipovi_presude_us) }}</p>
                 </div>
                 <div>
                   <label class="block text-sm font-medium text-gray-500 mb-1">Број одлуке УС</label>
@@ -1186,6 +1186,15 @@ const getTipResenjaName = (id) => {
   if (!id) return '-';
   const tip = tipoviResenja.value.find(t => t.id === id);
   return tip ? tip.tip_resenja : '-';
+};
+
+// Helper function to get tip presude US name by ID
+const getTipoviPresudeUsName = (id) => {
+  if (!id) return '-';
+  // Convert string to int if needed (ensure type match for comparison)
+  const numId = typeof id === 'string' ? parseInt(id) : id;
+  const tipPresude = tipoviPresude.value.find(t => t.id === numId);
+  return tipPresude ? tipPresude.tip_presude : '-';
 };
 
 const openModal = async (mode, zalba = null) => {

@@ -82,4 +82,24 @@ class Zalba extends Model
     {
         return $this->belongsTo(SifarnikOsnovZalbe::class, 'osnov_zalbe', 'id');
     }
+
+    public function izvestilac()
+    {
+        return $this->belongsTo(SifarnikClanoviKomisije::class, 'izvestilac_sa_zalbama');
+    }
+
+    public function komisijaZkv()
+    {
+        return $this->belongsTo(SifarnikClanoviKomisije::class, 'komisije_zkv');
+    }
+
+    public function clanKomisije1()
+    {
+        return $this->belongsTo(SifarnikClanoviKomisije::class, 'clanovi_komisije1');
+    }
+
+    public function clanKomisije2()
+    {
+        return $this->belongsTo(SifarnikClanoviKomisije::class, 'clanovi_komisije2');
+    }
 }

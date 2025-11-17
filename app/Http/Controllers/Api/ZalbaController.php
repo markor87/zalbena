@@ -14,7 +14,7 @@ class ZalbaController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Zalba::with(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe']);
+        $query = Zalba::with(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe', 'izvestilac', 'komisijaZkv', 'clanKomisije1', 'clanKomisije2']);
 
         // Quick search filter
         if ($request->has('search') && $request->search) {
@@ -233,7 +233,7 @@ class ZalbaController extends Controller
         $zalba = Zalba::create($validated);
 
         // Load relationships before returning
-        $zalba->load(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe']);
+        $zalba->load(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe', 'izvestilac', 'komisijaZkv', 'clanKomisije1', 'clanKomisije2']);
 
         return response()->json($zalba, 201);
     }
@@ -243,7 +243,7 @@ class ZalbaController extends Controller
      */
     public function show(string $id)
     {
-        $zalba = Zalba::with(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe'])
+        $zalba = Zalba::with(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe', 'izvestilac', 'komisijaZkv', 'clanKomisije1', 'clanKomisije2'])
             ->findOrFail($id);
 
         return response()->json($zalba);
@@ -293,7 +293,7 @@ class ZalbaController extends Controller
         $zalba->update($validated);
 
         // Refresh and load relationships before returning
-        $zalba->refresh()->load(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe']);
+        $zalba->refresh()->load(['podnosilac', 'tipResenja', 'tipPresude', 'osnovZalbe', 'izvestilac', 'komisijaZkv', 'clanKomisije1', 'clanKomisije2']);
 
         return response()->json($zalba);
     }
