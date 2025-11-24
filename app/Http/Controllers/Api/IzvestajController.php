@@ -1898,6 +1898,11 @@ class IzvestajController extends Controller
             });
         }
 
+        // Podnosilac filter
+        if ($request->has('podnosilac_id') && $request->podnosilac_id) {
+            $query->where('z.podnosioci_zalbe', $request->podnosilac_id);
+        }
+
         // Decode advanced_filters if it's a JSON string
         $advancedFilters = $request->input('advanced_filters');
         if ($advancedFilters && is_string($advancedFilters)) {
