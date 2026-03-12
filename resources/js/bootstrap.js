@@ -6,6 +6,9 @@ const baseURL = import.meta.env.DEV ? '/api' : '/zalbena/api';
 window.axios.defaults.baseURL = baseURL;
 window.axios.defaults.withCredentials = true;
 
+const basePath = import.meta.env.VITE_API_BASE_URL || '';
+let isRedirecting = false;
+
 // Get CSRF token from meta tag and set it in axios headers
 const token = document.head.querySelector('meta[name="csrf-token"]');
 if (token) {
@@ -22,17 +25,19 @@ window.axios.interceptors.response.use(
             switch (error.response.status) {
                 case 401:
                     // Unauthenticated - redirect to login (unless already there)
-                    if (!window.location.pathname.includes('/login')) {
+                    if (!isRedirecting && !window.location.pathname.includes('/login')) {
+                        isRedirecting = true;
                         console.warn('Неаутентификован корисник, редирект на login страницу');
-                        const basePath = import.meta.env.VITE_API_BASE_URL || '';
-                        window.location.href = `${basePath}/login`;
+                        window.location.replace(`${basePath}/login`);
                     }
                     break;
                 case 419:
-                    // CSRF token mismatch - reload page to get new token
-                    console.warn('CSRF token неподударање, освежавање странице');
-                    alert('Ваша сесија је истекла. Молимо освежите страницу.');
-                    window.location.reload();
+                    // CSRF token mismatch - session expired, redirect to login with full reload
+                    if (!isRedirecting) {
+                        isRedirecting = true;
+                        console.warn('CSRF token неподударање, редирект на login страницу');
+                        window.location.replace(`${basePath}/login`);
+                    }
                     break;
                 case 403:
                     // Forbidden
