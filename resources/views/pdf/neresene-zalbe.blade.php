@@ -51,7 +51,7 @@
 </head>
 <body>
     <h1>Извештај: Нерешене жалбе</h1>
-    <p style="text-align: center; margin-bottom: 20px;">Датум генерисања: {{ date('d.m.Y H:i') }}</p>
+    <p style="text-align: center; margin-bottom: 20px;">Датум генерисања: {{ now()->format('d.m.Y H:i') }}</p>
 
     <table>
         <thead>
