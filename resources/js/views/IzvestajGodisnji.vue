@@ -66,6 +66,7 @@
           <thead class="bg-gray-50">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Институција</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Пријемни број</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Основ жалбе</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Тип решења</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Датум пријема жалбе</th>
@@ -75,13 +76,16 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-if="data.length === 0">
-              <td colspan="6" class="px-6 py-8 text-center text-gray-500">
+              <td colspan="7" class="px-6 py-8 text-center text-gray-500">
                 Нема резултата
               </td>
             </tr>
             <tr v-for="(item, index) in data" :key="index" class="hover:bg-gray-50">
               <td class="px-6 py-4 text-sm text-gray-900">
                 {{ item.institucija_podnosioca_zalbe || '-' }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ item.prijemni_broj || '-' }}
               </td>
               <td class="px-6 py-4 text-sm text-gray-500">
                 {{ item.osnov_zalbe || '-' }}
@@ -179,7 +183,7 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Изаберите оператор</option>
-                    <template v-if="['text', 'lista'].includes(getFieldType(filter.field))">
+                    <template v-if="getFieldType(filter.field) === 'text'">
                       <option value="equals">Једнак</option>
                       <option value="not_equals">Није једнак</option>
                       <option value="contains">Садржи</option>
@@ -210,10 +214,9 @@
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
                   <SifarnikSelect
-                    v-if="['sifarnik', 'lista'].includes(getFieldType(filter.field))"
+                    v-if="getFieldType(filter.field) === 'sifarnik'"
                     v-model="filter.value"
                     :options="getSifarnikOptions(filter.field)"
-                    :taggable="getFieldType(filter.field) === 'lista'"
                     :disabled="!filter.operator"
                     :placeholder="valuePlaceholder(filter)"
                   />
@@ -417,7 +420,6 @@ const getFieldType = (field) => {
 const valuePlaceholder = (filter) => {
   if (!filter.field) return 'Прво изаберите поље';
   if (!filter.operator) return 'Прво изаберите оператор';
-  if (getFieldType(filter.field) === 'lista') return 'Изаберите или унесите';
   if (getFieldType(filter.field) === 'sifarnik') return 'Изаберите вредност';
   return 'Унесите вредност';
 };

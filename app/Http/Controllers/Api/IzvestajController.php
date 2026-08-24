@@ -1784,6 +1784,7 @@ class IzvestajController extends Controller
             ->leftJoin('sifarnik_tipovi_resenja as str', 'z.tipovi_resenja', '=', 'str.id')
             ->select(
                 'pz.institucija_podnosioca_zalbe',
+                'z.prijemni_broj',
                 'soz.osnov_zalbe',
                 'str.tip_resenja',
                 'z.datum_prijema_zalbe',
@@ -1909,6 +1910,7 @@ class IzvestajController extends Controller
                 return $this->data->map(function ($item) {
                     return [
                         'Институција' => $item->institucija_podnosioca_zalbe ?? '',
+                        'Пријемни број' => $item->prijemni_broj ?? '',
                         'Основ жалбе' => $item->osnov_zalbe ?? '',
                         'Тип решења' => $item->tip_resenja ?? '',
                         'Датум пријема жалбе' => $item->datum_prijema_zalbe ? date('d.m.Y', strtotime($item->datum_prijema_zalbe)) : '',
@@ -1922,6 +1924,7 @@ class IzvestajController extends Controller
             {
                 return [
                     'Институција',
+                    'Пријемни број',
                     'Основ жалбе',
                     'Тип решења',
                     'Датум пријема жалбе',

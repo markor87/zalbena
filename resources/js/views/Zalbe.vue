@@ -703,7 +703,7 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Изаберите оператор</option>
-                    <template v-if="['text', 'lista'].includes(getFieldType(filter.field))">
+                    <template v-if="getFieldType(filter.field) === 'text'">
                       <option value="equals">Једнак</option>
                       <option value="not_equals">Није једнак</option>
                       <option value="contains">Садржи</option>
@@ -734,12 +734,11 @@
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
                   <SifarnikSelect
-                    v-if="['sifarnik', 'lista'].includes(getFieldType(filter.field))"
+                    v-if="getFieldType(filter.field) === 'sifarnik'"
                     v-model="filter.value"
                     :options="getSifarnikOptions(filter.field)"
                     :reduce="getSifarnikConfig(filter.field).reduce"
                     :get-option-label="getSifarnikConfig(filter.field).label"
-                    :taggable="getFieldType(filter.field) === 'lista'"
                     :disabled="!filter.operator"
                     :placeholder="valuePlaceholder(filter)"
                   />
@@ -1511,9 +1510,7 @@ const sifarnikFields = {
   institucija: {
     options: () => institucije.value,
     reduce: v => v,
-    label: v => String(v ?? ''),
-    // Institucija nije sifarnik, pa je dozvoljen i slobodan unos
-    lista: true
+    label: v => String(v ?? '')
   },
   izvestilac_sa_zalbama: clanKomisijeConfig,
   komisije_zkv: clanKomisijeConfig,
@@ -1534,7 +1531,7 @@ const getFieldType = (field) => {
     'datum_resavanja_na_zk'
   ];
   if (dateFields.includes(field)) return 'date';
-  if (sifarnikFields[field]) return sifarnikFields[field].lista ? 'lista' : 'sifarnik';
+  if (sifarnikFields[field]) return 'sifarnik';
   return 'text';
 };
 
@@ -1542,7 +1539,6 @@ const getFieldType = (field) => {
 const valuePlaceholder = (filter) => {
   if (!filter.field) return 'Прво изаберите поље';
   if (!filter.operator) return 'Прво изаберите оператор';
-  if (getFieldType(filter.field) === 'lista') return 'Изаберите или унесите';
   if (getFieldType(filter.field) === 'sifarnik') return 'Изаберите вредност';
   return 'Унесите вредност';
 };

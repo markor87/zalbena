@@ -38,6 +38,7 @@
         <thead>
             <tr>
                 <th>Институција</th>
+                <th>Пријемни број</th>
                 <th>Основ жалбе</th>
                 <th>Тип решења</th>
                 <th>Датум пријема жалбе</th>
@@ -49,6 +50,7 @@
             @foreach($data as $item)
             <tr>
                 <td>{{ $item->institucija_podnosioca_zalbe ?? '-' }}</td>
+                <td>{{ $item->prijemni_broj ?? '-' }}</td>
                 <td>{{ $item->osnov_zalbe ?? '-' }}</td>
                 <td>{{ $item->tip_resenja ?? '-' }}</td>
                 <td>{{ $item->datum_prijema_zalbe ? date('d.m.Y', strtotime($item->datum_prijema_zalbe)) : '-' }}</td>

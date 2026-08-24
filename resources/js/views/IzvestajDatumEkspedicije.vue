@@ -174,7 +174,7 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Изаберите оператор</option>
-                    <template v-if="['text', 'lista'].includes(getFieldType(filter.field))">
+                    <template v-if="getFieldType(filter.field) === 'text'">
                       <option value="equals">Једнак</option>
                       <option value="not_equals">Није једнак</option>
                       <option value="contains">Садржи</option>
@@ -199,10 +199,9 @@
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
                   <SifarnikSelect
-                    v-if="['sifarnik', 'lista'].includes(getFieldType(filter.field))"
+                    v-if="getFieldType(filter.field) === 'sifarnik'"
                     v-model="filter.value"
                     :options="getSifarnikOptions(filter.field)"
-                    :taggable="getFieldType(filter.field) === 'lista'"
                     :disabled="!filter.operator"
                     :placeholder="valuePlaceholder(filter)"
                   />
@@ -406,7 +405,6 @@ const getFieldType = (field) => {
 const valuePlaceholder = (filter) => {
   if (!filter.field) return 'Прво изаберите поље';
   if (!filter.operator) return 'Прво изаберите оператор';
-  if (getFieldType(filter.field) === 'lista') return 'Изаберите или унесите';
   if (getFieldType(filter.field) === 'sifarnik') return 'Изаберите вредност';
   return 'Унесите вредност';
 };
