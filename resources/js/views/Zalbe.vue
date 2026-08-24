@@ -699,10 +699,11 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Оператор</label>
                   <select
                     v-model="filter.operator"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                    :disabled="!filter.field"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Изаберите оператор</option>
-                    <template v-if="getFieldType(filter.field) === 'text'">
+                    <template v-if="['text', 'lista'].includes(getFieldType(filter.field))">
                       <option value="equals">Једнак</option>
                       <option value="not_equals">Није једнак</option>
                       <option value="contains">Садржи</option>
@@ -733,11 +734,14 @@
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
                   <SifarnikSelect
-                    v-if="getFieldType(filter.field) === 'sifarnik'"
+                    v-if="['sifarnik', 'lista'].includes(getFieldType(filter.field))"
                     v-model="filter.value"
                     :options="getSifarnikOptions(filter.field)"
                     :reduce="getSifarnikConfig(filter.field).reduce"
                     :get-option-label="getSifarnikConfig(filter.field).label"
+                    :taggable="getFieldType(filter.field) === 'lista'"
+                    :disabled="!filter.operator"
+                    :placeholder="valuePlaceholder(filter)"
                   />
                   <VueDatePicker
                     v-else-if="getFieldType(filter.field) === 'date'"
@@ -747,14 +751,16 @@
                     text-input
                     auto-apply
                     :teleport="true"
-                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                    :disabled="!filter.operator"
+                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <input
                     v-else
                     v-model="filter.value"
                     type="text"
-                    placeholder="Унесите вредност"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                    :disabled="!filter.operator"
+                    :placeholder="valuePlaceholder(filter)"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -1116,6 +1122,7 @@ const clanoviKomisije = ref([]);
 const tipoviResenja = ref([]);
 const statusiZalbe = ref([]);
 const tipoviPresude = ref([]);
+const institucije = ref([]);
 
 // Details modal
 const showDetailsModal = ref(false);
@@ -1501,6 +1508,13 @@ const sifarnikFields = {
     reduce: s => s.status_zalbe,
     label: s => s?.status_zalbe ?? String(s ?? '')
   },
+  institucija: {
+    options: () => institucije.value,
+    reduce: v => v,
+    label: v => String(v ?? ''),
+    // Institucija nije sifarnik, pa je dozvoljen i slobodan unos
+    lista: true
+  },
   izvestilac_sa_zalbama: clanKomisijeConfig,
   komisije_zkv: clanKomisijeConfig,
   clanovi_komisije1: clanKomisijeConfig,
@@ -1520,8 +1534,17 @@ const getFieldType = (field) => {
     'datum_resavanja_na_zk'
   ];
   if (dateFields.includes(field)) return 'date';
-  if (sifarnikFields[field]) return 'sifarnik';
+  if (sifarnikFields[field]) return sifarnikFields[field].lista ? 'lista' : 'sifarnik';
   return 'text';
+};
+
+// Vrednost se ne unosi dok se ne izabere operator
+const valuePlaceholder = (filter) => {
+  if (!filter.field) return 'Прво изаберите поље';
+  if (!filter.operator) return 'Прво изаберите оператор';
+  if (getFieldType(filter.field) === 'lista') return 'Изаберите или унесите';
+  if (getFieldType(filter.field) === 'sifarnik') return 'Изаберите вредност';
+  return 'Унесите вредност';
 };
 
 const onFieldChange = (index) => {
@@ -1743,14 +1766,16 @@ const fetchSifarnici = async () => {
       clanoviRes,
       tipoviResenjaRes,
       statusiRes,
-      tipoviPresudeRes
+      tipoviPresudeRes,
+      institucijeRes
     ] = await Promise.all([
       axios.get('/podnosioci-zalbe/search'),  // Load initial set without search
       axios.get('/sifarnik-osnov-zalbe'),
       axios.get('/sifarnik-clanovi-komisije'),
       axios.get('/sifarnik-tipovi-resenja'),
       axios.get('/sifarnik-status-zalbe'),
-      axios.get('/sifarnik-tip-presude')
+      axios.get('/sifarnik-tip-presude'),
+      axios.get('/podnosioci-zalbe/institucije')
     ]);
 
     podnosioci.value = podnosioziRes.data;
@@ -1759,6 +1784,7 @@ const fetchSifarnici = async () => {
     tipoviResenja.value = tipoviResenjaRes.data;
     statusiZalbe.value = statusiRes.data;
     tipoviPresude.value = tipoviPresudeRes.data;
+    institucije.value = institucijeRes.data;
   } catch (error) {
     console.error('Error fetching sifarnici:', error);
     showToastNotification('Грешка при учитавању шифарника. Молимо освежите страницу.', 'error');

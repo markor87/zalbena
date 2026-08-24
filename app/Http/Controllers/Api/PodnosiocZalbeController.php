@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\PodnosiocZalbe;
+use App\Models\SifarnikOrgani;
 use Illuminate\Http\Request;
 
 class PodnosiocZalbeController extends Controller
@@ -52,6 +53,23 @@ class PodnosiocZalbeController extends Controller
 
         $podnosioci = $query->paginate(10);
         return response()->json($podnosioci);
+    }
+
+    /**
+     * Spisak institucija za padajucu listu u naprednoj pretrazi.
+     * Izvor je sifarnik organa, isti kao na formi podnosioca zalbe.
+     */
+    public function institucije()
+    {
+        // Podrazumevano poredjenje ne poznaje srpsku azbuku (Ј bi zavrsilo pre А)
+        $collator = new \Collator('sr_RS');
+
+        $institucije = SifarnikOrgani::query()
+            ->pluck('organ')
+            ->sort(fn ($a, $b) => $collator->compare($a, $b))
+            ->values();
+
+        return response()->json($institucije);
     }
 
     /**

@@ -175,10 +175,11 @@
                   <label class="block text-sm font-medium text-gray-700 mb-2">Оператор</label>
                   <select
                     v-model="filter.operator"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                    :disabled="!filter.field"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Изаберите оператор</option>
-                    <template v-if="getFieldType(filter.field) === 'text'">
+                    <template v-if="['text', 'lista'].includes(getFieldType(filter.field))">
                       <option value="equals">Једнак</option>
                       <option value="not_equals">Није једнак</option>
                       <option value="contains">Садржи</option>
@@ -209,9 +210,12 @@
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
                   <SifarnikSelect
-                    v-if="getFieldType(filter.field) === 'sifarnik'"
+                    v-if="['sifarnik', 'lista'].includes(getFieldType(filter.field))"
                     v-model="filter.value"
                     :options="getSifarnikOptions(filter.field)"
+                    :taggable="getFieldType(filter.field) === 'lista'"
+                    :disabled="!filter.operator"
+                    :placeholder="valuePlaceholder(filter)"
                   />
                   <VueDatePicker
                     v-else-if="getFieldType(filter.field) === 'date'"
@@ -221,14 +225,16 @@
                     text-input
                     auto-apply
                     :teleport="true"
-                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                    :disabled="!filter.operator"
+                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                   <input
                     v-else
                     v-model="filter.value"
                     type="text"
-                    placeholder="Унесите вредност"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                    :disabled="!filter.operator"
+                    :placeholder="valuePlaceholder(filter)"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -343,7 +349,7 @@ import axios from 'axios';
 import SifarnikSelect from '@/components/SifarnikSelect.vue';
 import { useSifarnikFilters } from '@/composables/useSifarnikFilters';
 
-const { loadSifarnici, isSifarnikField, getSifarnikOptions } = useSifarnikFilters(['status_zalbe']);
+const { loadSifarnici, getListFieldType, getSifarnikOptions } = useSifarnikFilters(['institucija_podnosioca_zalbe', 'status_zalbe']);
 
 const data = ref([]);
 const searchQuery = ref('');
@@ -404,8 +410,16 @@ const removeFilter = (index) => {
 const getFieldType = (field) => {
   const dateFields = ['datum_prijema_zalbe'];
   if (dateFields.includes(field)) return 'date';
-  if (isSifarnikField(field)) return 'sifarnik';
-  return 'text';
+  return getListFieldType(field) || 'text';
+};
+
+// Vrednost se ne unosi dok se ne izabere operator
+const valuePlaceholder = (filter) => {
+  if (!filter.field) return 'Прво изаберите поље';
+  if (!filter.operator) return 'Прво изаберите оператор';
+  if (getFieldType(filter.field) === 'lista') return 'Изаберите или унесите';
+  if (getFieldType(filter.field) === 'sifarnik') return 'Изаберите вредност';
+  return 'Унесите вредност';
 };
 
 const onFieldChange = (index) => {

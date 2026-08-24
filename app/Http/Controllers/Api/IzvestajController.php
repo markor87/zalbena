@@ -2068,6 +2068,49 @@ class IzvestajController extends Controller
     }
 
     /**
+     * Mapa polja napredne pretrage zalbi u kolone baze.
+     *
+     * Mora da odgovara onome sto radi ZalbaController - spisak filtrira po
+     * kolonama tabele zalbe, pa sifarnicka polja idu po id-u, a ne po nazivu
+     * iz sifarnika. Inace izvoz vrati prazan rezultat.
+     */
+    private function zalbeAdvancedFieldMap()
+    {
+        return [
+            'prijemni_broj' => 'z.prijemni_broj',
+            'broj_resenja' => 'z.broj_resenja',
+            'podnosioci_zalbe' => DB::raw("CONCAT(pz.ime_podnosioca_zalbe, ' ', pz.prezime_podnosioca_zalbe)"),
+            'institucija' => 'z.institucija',
+            'datum_prijema_zalbe' => 'z.datum_prijema_zalbe',
+            'datum_vracanja_na_dopunu' => 'z.datum_vracanja_na_dopunu',
+            'rok_za_dopunu' => 'z.rok_za_dopunu',
+            'datum_prijema_dopune' => 'z.datum_prijema_dopune',
+            'osnov_zalbe' => 'z.osnov_zalbe',
+            'napomena' => 'z.napomena',
+            'datum_predaje_komisiji' => 'z.datum_predaje_komisiji',
+            'datum_resavanja_na_zk' => 'z.datum_resavanja_na_zk',
+            'datum_ekspedicije_ds_organu' => 'z.datum_ekspedicije_ds_organu',
+            'izvestilac_sa_zalbama' => 'z.izvestilac_sa_zalbama',
+            'komisije_zkv' => 'z.komisije_zkv',
+            'tipovi_resenja' => 'z.tipovi_resenja',
+            'clanovi_komisije1' => 'z.clanovi_komisije1',
+            'clanovi_komisije2' => 'z.clanovi_komisije2',
+            'datum_isticanja_donosenje' => 'z.datum_isticanja_donosenje',
+            'status_zalbe' => 'z.status_zalbe',
+            'datum_prijema_tuzbe_od_us' => 'z.datum_prijema_tuzbe_od_us',
+            'datum_ekspedicije_odgovora_zk' => 'z.datum_ekspedicije_odgovora_zk',
+            'datum_prijema_odluke_us' => 'z.datum_prijema_odluke_us',
+            'tipovi_presude_us' => 'z.tipovi_presude_us',
+            'broj_odluke_us' => 'z.broj_odluke_us',
+            'datum_donosenja_odluke_us' => 'z.datum_donosenja_odluke_us',
+            'datum_resenja_zk_po_presudi_us' => 'z.datum_resenja_zk_po_presudi_us',
+            'broj_resenja_zk_po_presudi_us' => 'z.broj_resenja_zk_po_presudi_us',
+            'naknada' => 'z.naknada',
+            'dostavnica' => 'z.dostavnica',
+        ];
+    }
+
+    /**
      * Get query for zalbe export
      */
     private function getZalbeExportQuery(Request $request)
@@ -2128,16 +2171,7 @@ class IzvestajController extends Controller
                 $value = $filter['value'] ?? null;
                 $value2 = $filter['value2'] ?? null;
 
-                // Map field names to actual database columns
-                $fieldMap = [
-                    'datum_prijema_zalbe' => 'z.datum_prijema_zalbe',
-                    'institucija' => 'pz.institucija_podnosioca_zalbe',
-                    'osnov_zalbe' => 'soz.osnov_zalbe',
-                    'tipovi_resenja' => 'str.tip_resenja',
-                    'status_zalbe' => 'z.status_zalbe',
-                ];
-
-                $dbField = $fieldMap[$field] ?? null;
+                $dbField = $this->zalbeAdvancedFieldMap()[$field] ?? null;
 
                 if ($dbField) {
                     $this->applyAdvancedFilterZalbe($query, $dbField, $operator, $value, $value2);
@@ -2297,20 +2331,7 @@ class IzvestajController extends Controller
                 $value = $filter['value'] ?? null;
                 $value2 = $filter['value2'] ?? null;
 
-                // Map field names to actual database columns
-                $fieldMap = [
-                    'podnosioci_zalbe' => DB::raw("CONCAT(pz.ime_podnosioca_zalbe, ' ', pz.prezime_podnosioca_zalbe)"),
-                    'prijemni_broj' => 'z.prijemni_broj',
-                    'broj_resenja' => 'z.broj_resenja',
-                    'datum_prijema_zalbe' => 'z.datum_prijema_zalbe',
-                    'datum_resavanja' => 'z.datum_resavanja_na_zk',
-                    'status_zalbe' => 'z.status_zalbe',
-                    'institucija' => 'pz.institucija_podnosioca_zalbe',
-                    'osnov_zalbe' => 'soz.osnov_zalbe',
-                    'tipovi_resenja' => 'str.tip_resenja',
-                ];
-
-                $dbField = $fieldMap[$field] ?? null;
+                $dbField = $this->zalbeAdvancedFieldMap()[$field] ?? null;
 
                 if ($dbField) {
                     // Reuse the same filter logic

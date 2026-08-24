@@ -24,6 +24,7 @@ Route::middleware('auth:web')->group(function () {
 
     // Podnosioci zalbe routes
     Route::get('podnosioci-zalbe/search', [PodnosiocZalbeController::class, 'search']);
+    Route::get('podnosioci-zalbe/institucije', [PodnosiocZalbeController::class, 'institucije']);
     Route::apiResource('podnosioci-zalbe', PodnosiocZalbeController::class);
 
     // Zalbe routes

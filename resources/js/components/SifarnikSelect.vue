@@ -4,6 +4,9 @@
     @update:model-value="value => emit('update:modelValue', value)"
     :options="options"
     :placeholder="placeholder"
+    :taggable="taggable"
+    :disabled="disabled"
+    :create-option="value => value"
     v-bind="extraProps"
     append-to-body
     :calculate-position="positionDropdown"
@@ -21,7 +24,10 @@ const props = defineProps({
   options: { type: Array, default: () => [] },
   reduce: { type: Function, default: null },
   getOptionLabel: { type: Function, default: null },
-  placeholder: { type: String, default: 'Изаберите вредност' }
+  placeholder: { type: String, default: 'Изаберите вредност' },
+  // Dozvoljava i vrednost koja nije u listi - potvrdjuje se tasterom Enter
+  taggable: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false }
 });
 
 const emit = defineEmits(['update:modelValue']);
