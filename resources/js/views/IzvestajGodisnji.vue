@@ -2,8 +2,8 @@
   <div>
     <!-- Header -->
     <div class="mb-6">
-      <h2 class="text-3xl font-bold text-gray-800">Датум експедиције решених жалби</h2>
-      <p class="text-gray-600 mt-2">Преглед решених жалби са датумом експедиције</p>
+      <h2 class="text-3xl font-bold text-gray-800">Годишњи извештај</h2>
+      <p class="text-gray-600 mt-2">Преглед жалби по институцији, основу и типу решења</p>
     </div>
 
     <!-- Search, Filters and Export -->
@@ -14,7 +14,7 @@
           <input
             v-model="searchQuery"
             type="text"
-            placeholder="Име, презиме, пријемни број, број решења..."
+            placeholder="Институција, основ, тип решења, статус..."
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
           />
         </div>
@@ -65,34 +65,38 @@
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Име и презиме</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Институција</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Пријемни број</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Број решења</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Датум експедиције</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Основ жалбе</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Тип решења</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Датум пријема жалбе</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Датум решавања на ЖК</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статус жалбе</th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr v-if="data.length === 0">
-              <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+              <td colspan="6" class="px-6 py-8 text-center text-gray-500">
                 Нема резултата
               </td>
             </tr>
             <tr v-for="(item, index) in data" :key="index" class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ item.ime_i_prezime || '-' }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <td class="px-6 py-4 text-sm text-gray-900">
                 {{ item.institucija_podnosioca_zalbe || '-' }}
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ item.prijemni_broj || '-' }}
+              <td class="px-6 py-4 text-sm text-gray-500">
+                {{ item.osnov_zalbe || '-' }}
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">
+                {{ item.tip_resenja || '-' }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ item.broj_resenja || '-' }}
+                {{ formatDate(item.datum_prijema_zalbe) }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ formatDate(item.datum_ekspedicije_ds_organu) }}
+                {{ formatDate(item.datum_resavanja_na_zk) }}
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {{ item.status_zalbe || '-' }}
               </td>
             </tr>
           </tbody>
@@ -157,11 +161,12 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
                   >
                     <option value="">Изаберите поље</option>
-                    <option value="ime_i_prezime">Име и презиме</option>
                     <option value="institucija_podnosioca_zalbe">Институција</option>
-                    <option value="prijemni_broj">Пријемни број</option>
-                    <option value="broj_resenja">Број решења</option>
-                    <option value="datum_ekspedicije_ds_organu">Датум експедиције</option>
+                    <option value="osnov_zalbe">Основ жалбе</option>
+                    <option value="tip_resenja">Тип решења</option>
+                    <option value="datum_prijema_zalbe">Датум пријема жалбе</option>
+                    <option value="datum_resavanja_na_zk">Датум решавања на ЖК</option>
+                    <option value="status_zalbe">Статус жалбе</option>
                   </select>
                 </div>
 
@@ -191,14 +196,25 @@
                       <option value="is_null">Празан</option>
                       <option value="is_not_null">Није празан</option>
                     </template>
+                    <template v-if="getFieldType(filter.field) === 'sifarnik'">
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="is_null">Празан</option>
+                      <option value="is_not_null">Није празан</option>
+                    </template>
                   </select>
                 </div>
 
                 <!-- Value Input -->
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
+                  <SifarnikSelect
+                    v-if="getFieldType(filter.field) === 'sifarnik'"
+                    v-model="filter.value"
+                    :options="getSifarnikOptions(filter.field)"
+                  />
                   <VueDatePicker
-                    v-if="getFieldType(filter.field) === 'date'"
+                    v-else-if="getFieldType(filter.field) === 'date'"
                     v-model="filter.value"
                     format="dd.MM.yyyy"
                     :enable-time-picker="false"
@@ -324,6 +340,10 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
+import SifarnikSelect from '@/components/SifarnikSelect.vue';
+import { useSifarnikFilters } from '@/composables/useSifarnikFilters';
+
+const { loadSifarnici, isSifarnikField, getSifarnikOptions } = useSifarnikFilters(['osnov_zalbe', 'tip_resenja', 'status_zalbe']);
 
 const data = ref([]);
 const searchQuery = ref('');
@@ -356,7 +376,10 @@ const resetFilters = () => {
 };
 
 // Advanced Search functions
-const openAdvancedSearch = () => {
+const openAdvancedSearch = async () => {
+  // Sifarnici se ucitavaju tek kad zatrebaju, da bi vrednosti mogle da se biraju iz liste
+  await loadSifarnici();
+
   // Restore previously applied filters if they exist
   if (activeAdvancedFilters.value.length > 0) {
     advancedFilters.value = JSON.parse(JSON.stringify(activeAdvancedFilters.value));
@@ -379,8 +402,10 @@ const removeFilter = (index) => {
 };
 
 const getFieldType = (field) => {
-  const dateFields = ['datum_ekspedicije_ds_organu'];
-  return dateFields.includes(field) ? 'date' : 'text';
+  const dateFields = ['datum_prijema_zalbe', 'datum_resavanja_na_zk'];
+  if (dateFields.includes(field)) return 'date';
+  if (isSifarnikField(field)) return 'sifarnik';
+  return 'text';
 };
 
 const onFieldChange = (index) => {
@@ -426,7 +451,7 @@ const fetchData = async (page = 1) => {
       params.advanced_filters = activeAdvancedFilters.value;
     }
 
-    const response = await axios.get('/izvestaj-datum-ekspedicije', { params });
+    const response = await axios.get('/izvestaj-godisnji', { params });
     data.value = response.data.data;
     currentPage.value = response.data.current_page;
     lastPage.value = response.data.last_page;
@@ -455,7 +480,7 @@ const exportExcel = () => {
   }
 
   const baseURL = window.axios.defaults.baseURL || '/api';
-  window.location.href = `${baseURL}/izvestaj-datum-ekspedicije/export-excel?${params.toString()}`;
+  window.location.href = `${baseURL}/izvestaj-godisnji/export-excel?${params.toString()}`;
   showToastNotification('Excel извештај се преузима...', 'success');
 };
 
@@ -469,7 +494,7 @@ const exportPdf = () => {
   }
 
   const baseURL = window.axios.defaults.baseURL || '/api';
-  window.location.href = `${baseURL}/izvestaj-datum-ekspedicije/export-pdf?${params.toString()}`;
+  window.location.href = `${baseURL}/izvestaj-godisnji/export-pdf?${params.toString()}`;
   showToastNotification('PDF извештај се преузима...', 'success');
 };
 

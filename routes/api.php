@@ -72,6 +72,10 @@ Route::middleware('auth:web')->group(function () {
     Route::get('izvestaj-upravni-sporovi-po-godinama/export-excel', [IzvestajController::class, 'exportUpravniSporoviPoGodinamaExcel']);
     Route::get('izvestaj-upravni-sporovi-po-godinama/export-pdf', [IzvestajController::class, 'exportUpravniSporoviPoGodinamaPdf']);
 
+    Route::get('izvestaj-godisnji', [IzvestajController::class, 'godisnjiIzvestaj']);
+    Route::get('izvestaj-godisnji/export-excel', [IzvestajController::class, 'exportGodisnjiIzvestajExcel']);
+    Route::get('izvestaj-godisnji/export-pdf', [IzvestajController::class, 'exportGodisnjiIzvestajPdf']);
+
     // User management routes (admin only)
     Route::middleware('is.admin')->group(function () {
         Route::apiResource('korisnici', UserController::class);

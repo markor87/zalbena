@@ -720,14 +720,27 @@
                       <option value="is_null">Празан</option>
                       <option value="is_not_null">Није празан</option>
                     </template>
+                    <template v-if="getFieldType(filter.field) === 'sifarnik'">
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="is_null">Празан</option>
+                      <option value="is_not_null">Није празан</option>
+                    </template>
                   </select>
                 </div>
 
                 <!-- Value Input -->
                 <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
                   <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
+                  <SifarnikSelect
+                    v-if="getFieldType(filter.field) === 'sifarnik'"
+                    v-model="filter.value"
+                    :options="getSifarnikOptions(filter.field)"
+                    :reduce="getSifarnikConfig(filter.field).reduce"
+                    :get-option-label="getSifarnikConfig(filter.field).label"
+                  />
                   <VueDatePicker
-                    v-if="getFieldType(filter.field) === 'date'"
+                    v-else-if="getFieldType(filter.field) === 'date'"
                     v-model="filter.value"
                     format="dd.MM.yyyy"
                     :enable-time-picker="false"
@@ -1058,6 +1071,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import vSelect from 'vue-select';
+import SifarnikSelect from '@/components/SifarnikSelect.vue';
 import 'vue-select/dist/vue-select.css';
 import { useSorting } from '../composables/useSorting';
 
@@ -1432,7 +1446,12 @@ const loadPodnosilacData = async (podnosilacId) => {
 };
 
 // Advanced Search functions
-const openAdvancedSearch = () => {
+const openAdvancedSearch = async () => {
+  // Ensure sifarnici are loaded so dropdown values can be picked
+  if (clanoviKomisije.value.length === 0 || tipoviResenja.value.length === 0) {
+    await fetchSifarnici();
+  }
+
   // Restore previously applied filters if they exist
   if (activeAdvancedFilters.value.length > 0) {
     advancedFilters.value = JSON.parse(JSON.stringify(activeAdvancedFilters.value));
@@ -1454,6 +1473,44 @@ const removeFilter = (index) => {
   advancedFilters.value.splice(index, 1);
 };
 
+// Fields backed by a sifarnik - value is picked from a dropdown, not typed in
+const clanKomisijeConfig = {
+  options: () => clanoviKomisije.value,
+  reduce: c => c.id,
+  label: c => (c?.ime ? `${c.ime} ${c.prezime}` : String(c ?? ''))
+};
+
+const sifarnikFields = {
+  osnov_zalbe: {
+    options: () => osnoviZalbe.value,
+    reduce: o => o.id,
+    label: o => o?.osnov_zalbe ?? String(o ?? '')
+  },
+  tipovi_resenja: {
+    options: () => tipoviResenja.value,
+    reduce: t => t.id,
+    label: t => t?.tip_resenja ?? String(t ?? '')
+  },
+  tipovi_presude_us: {
+    options: () => tipoviPresude.value,
+    reduce: t => t.id,
+    label: t => t?.tip_presude ?? String(t ?? '')
+  },
+  status_zalbe: {
+    options: () => statusiZalbe.value,
+    reduce: s => s.status_zalbe,
+    label: s => s?.status_zalbe ?? String(s ?? '')
+  },
+  izvestilac_sa_zalbama: clanKomisijeConfig,
+  komisije_zkv: clanKomisijeConfig,
+  clanovi_komisije1: clanKomisijeConfig,
+  clanovi_komisije2: clanKomisijeConfig
+};
+
+const getSifarnikConfig = (field) => sifarnikFields[field] || { reduce: v => v, label: v => String(v ?? '') };
+
+const getSifarnikOptions = (field) => sifarnikFields[field] ? sifarnikFields[field].options() : [];
+
 const getFieldType = (field) => {
   const dateFields = [
     'datum_prijema_zalbe',
@@ -1462,17 +1519,24 @@ const getFieldType = (field) => {
     'datum_prijema_dopune',
     'datum_resavanja_na_zk'
   ];
-  return dateFields.includes(field) ? 'date' : 'text';
+  if (dateFields.includes(field)) return 'date';
+  if (sifarnikFields[field]) return 'sifarnik';
+  return 'text';
 };
 
 const onFieldChange = (index) => {
   advancedFilters.value[index].operator = '';
-  advancedFilters.value[index].value = '';
-  advancedFilters.value[index].value2 = '';
+  advancedFilters.value[index].value = null;
+  advancedFilters.value[index].value2 = null;
 };
 
 const applyAdvancedSearch = () => {
-  activeAdvancedFilters.value = advancedFilters.value.filter(f => f.field && f.operator);
+  activeAdvancedFilters.value = advancedFilters.value.filter(f => {
+    if (!f.field || !f.operator) return false;
+    // Operators without a value are complete on their own
+    if (['is_null', 'is_not_null'].includes(f.operator)) return true;
+    return f.value !== null && f.value !== undefined && f.value !== '';
+  });
   showAdvancedSearch.value = false;
   fetchZalbe(1);
 };
@@ -1790,5 +1854,20 @@ onMounted(() => {
   ring: 2px;
   ring-color: #9333ea;
   box-shadow: 0 0 0 2px #9333ea40;
+}
+
+/* Izabrana vrednost ostaje u jednom redu, visak se skracuje sa "..." */
+:deep(.vue-select-custom .vs__selected-options) {
+  flex-wrap: nowrap;
+  overflow: hidden;
+  min-width: 0;
+}
+
+:deep(.vue-select-custom .vs__selected) {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 </style>

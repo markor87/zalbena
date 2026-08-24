@@ -151,6 +151,13 @@
               >
                 Управни спорови у току по годинама
               </router-link>
+              <router-link
+                to="/izvestaji/godisnji"
+                class="block px-4 py-2 text-sm text-gray-600 rounded-lg hover:bg-slate-100 hover:text-slate-700 transition-colors duration-200"
+                :class="{ 'bg-sky-50 text-sky-900': $route.path === '/izvestaji/godisnji' }"
+              >
+                Годишњи извештај
+              </router-link>
             </div>
           </transition>
         </div>
@@ -320,7 +327,8 @@ const pageTitle = computed(() => {
     '/izvestaji/ekspedovane-tuzbe': 'Извештај: Експедоване тужбе',
     '/izvestaji/odluke-suda': 'Извештај: Одлуке суда',
     '/izvestaji/upravni-sporovi-u-toku': 'Извештај: Управни спорови у току',
-    '/izvestaji/upravni-sporovi-po-godinama': 'Извештај: Управни спорови у току по годинама'
+    '/izvestaji/upravni-sporovi-po-godinama': 'Извештај: Управни спорови у току по годинама',
+    '/izvestaji/godisnji': 'Годишњи извештај'
   };
   return titles[route.path] || 'Жалбена';
 });

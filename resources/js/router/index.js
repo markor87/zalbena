@@ -69,6 +69,11 @@ const routes = [
         component: () => import('@/views/IzvestajUpravniSporoviPoGodinama.vue')
       },
       {
+        path: 'izvestaji/godisnji',
+        name: 'IzvestajGodisnji',
+        component: () => import('@/views/IzvestajGodisnji.vue')
+      },
+      {
         path: 'korisnici',
         name: 'Korisnici',
         component: () => import('@/views/Korisnici.vue')

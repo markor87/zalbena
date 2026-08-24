@@ -141,9 +141,13 @@
     <!-- Advanced Search Modal -->
     <teleport to="body">
       <div v-if="showAdvancedSearch" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-          <div class="p-6 border-b border-gray-200 flex items-center justify-between">
-            <h3 class="text-2xl font-bold text-gray-800">Напредна претрага</h3>
+        <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+          <!-- Header -->
+          <div class="p-6 border-b flex items-center justify-between bg-purple-50">
+            <div>
+              <h3 class="text-2xl font-bold text-gray-800">Напредна претрага</h3>
+              <p class="text-sm text-gray-600 mt-1">Креирајте сложене филтере за претрагу извештаја</p>
+            </div>
             <button @click="closeAdvancedSearch" class="text-gray-400 hover:text-gray-600">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -151,102 +155,115 @@
             </button>
           </div>
 
-          <div class="p-6 space-y-4">
-            <div v-for="(filter, index) in advancedFilters" :key="index" class="flex gap-3 items-start">
-              <!-- Field Select -->
-              <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Поље</label>
-                <select
-                  v-model="filter.field"
-                  @change="onFieldChange(index)"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
-                >
-                  <option value="">Изаберите поље</option>
-                  <option value="ime_i_prezime">Име и презиме</option>
-                  <option value="institucija_podnosioca_zalbe">Институција</option>
-                  <option value="prijemni_broj">Пријемни број</option>
-                  <option value="datum_prijema_odluke_us">Датум пријема одлуке УС</option>
-                  <option value="datum_prijema_zalbe">Датум пријема жалбе</option>
-                  <option value="datum_prijema_tuzbe_od_us">Датум пријема тужбе од УС</option>
-                  <option value="datum_ekspedicije_odgovora_zk">Датум експедиције одговора ЖК</option>
-                  <option value="status_zalbe">Статус</option>
-                </select>
-              </div>
+          <!-- Body -->
+          <div class="flex-1 overflow-y-auto p-6">
+            <!-- Filters -->
+            <div class="space-y-4">
+              <div v-for="(filter, index) in advancedFilters" :key="index" class="flex items-end gap-3 p-4 bg-gray-50 rounded-lg">
+                <!-- Field Selection -->
+                <div class="flex-1">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Поље</label>
+                  <select
+                    v-model="filter.field"
+                    @change="onFieldChange(index)"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                  >
+                    <option value="">Изаберите поље</option>
+                    <option value="ime_i_prezime">Име и презиме</option>
+                    <option value="institucija_podnosioca_zalbe">Институција</option>
+                    <option value="prijemni_broj">Пријемни број</option>
+                    <option value="datum_prijema_odluke_us">Датум пријема одлуке УС</option>
+                    <option value="datum_prijema_zalbe">Датум пријема жалбе</option>
+                    <option value="datum_prijema_tuzbe_od_us">Датум пријема тужбе од УС</option>
+                    <option value="datum_ekspedicije_odgovora_zk">Датум експедиције одговора ЖК</option>
+                    <option value="status_zalbe">Статус</option>
+                  </select>
+                </div>
 
-              <!-- Operator Select -->
-              <div class="flex-1" v-if="filter.field">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Оператор</label>
-                <select
-                  v-model="filter.operator"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
-                >
-                  <!-- Text operators -->
-                  <template v-if="getFieldType(filter.field) === 'text'">
-                    <option value="equals">Једнак</option>
-                    <option value="not_equals">Није једнак</option>
-                    <option value="contains">Садржи</option>
-                    <option value="starts_with">Почиње са</option>
-                    <option value="ends_with">Завршава се са</option>
-                  </template>
-                  <!-- Date operators -->
-                  <template v-else-if="getFieldType(filter.field) === 'date'">
-                    <option value="equals">Једнак</option>
-                    <option value="not_equals">Није једнак</option>
-                    <option value="between">Између</option>
-                    <option value="greater_than">Већи од</option>
-                    <option value="less_than">Мањи од</option>
-                    <option value="greater_or_equal">Већи или једнак</option>
-                    <option value="less_or_equal">Мањи или једнак</option>
-                    <option value="is_null">Празан</option>
-                    <option value="is_not_null">Није празан</option>
-                  </template>
-                </select>
-              </div>
+                <!-- Оператор Selection -->
+                <div class="flex-1">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Оператор</label>
+                  <select
+                    v-model="filter.operator"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                  >
+                    <option value="">Изаберите оператор</option>
+                    <template v-if="getFieldType(filter.field) === 'text'">
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="contains">Садржи</option>
+                      <option value="starts_with">Почиње са</option>
+                      <option value="ends_with">Завршава се са</option>
+                    </template>
+                    <template v-if="getFieldType(filter.field) === 'date'">
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="between">Између</option>
+                      <option value="greater_than">Већи од</option>
+                      <option value="less_than">Мањи од</option>
+                      <option value="greater_or_equal">Већи или једнак</option>
+                      <option value="less_or_equal">Мањи или једнак</option>
+                      <option value="is_null">Празан</option>
+                      <option value="is_not_null">Није празан</option>
+                    </template>
+                    <template v-if="getFieldType(filter.field) === 'sifarnik'">
+                      <option value="equals">Једнак</option>
+                      <option value="not_equals">Није једнак</option>
+                      <option value="is_null">Празан</option>
+                      <option value="is_not_null">Није празан</option>
+                    </template>
+                  </select>
+                </div>
 
-              <!-- Value Input(s) -->
-              <div class="flex-1" v-if="filter.field && filter.operator && !['is_null', 'is_not_null'].includes(filter.operator)">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
-                <VueDatePicker
-                  v-if="getFieldType(filter.field) === 'date'"
-                  v-model="filter.value"
-                  format="dd.MM.yyyy"
-                  :enable-time-picker="false"
-                  text-input
-                  auto-apply
-                  :teleport="true"
-                  input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
-                />
-                <input
-                  v-else
-                  v-model="filter.value"
-                  type="text"
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
-                />
-              </div>
+                <!-- Value Input -->
+                <div class="flex-1" v-if="!['is_null', 'is_not_null'].includes(filter.operator)">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Вредност</label>
+                  <SifarnikSelect
+                    v-if="getFieldType(filter.field) === 'sifarnik'"
+                    v-model="filter.value"
+                    :options="getSifarnikOptions(filter.field)"
+                  />
+                  <VueDatePicker
+                    v-else-if="getFieldType(filter.field) === 'date'"
+                    v-model="filter.value"
+                    format="dd.MM.yyyy"
+                    :enable-time-picker="false"
+                    text-input
+                    auto-apply
+                    :teleport="true"
+                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                  />
+                  <input
+                    v-else
+                    v-model="filter.value"
+                    type="text"
+                    placeholder="Унесите вредност"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                  />
+                </div>
 
-              <!-- Value2 for Between -->
-              <div class="flex-1" v-if="filter.operator === 'between'">
-                <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
-                <VueDatePicker
-                  v-model="filter.value2"
-                  format="dd.MM.yyyy"
-                  :enable-time-picker="false"
-                  text-input
-                  auto-apply
-                  :teleport="true"
-                  input-class-name="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
-                />
-              </div>
+                <!-- Second Value for "Between" -->
+                <div class="flex-1" v-if="filter.operator === 'between'">
+                  <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
+                  <VueDatePicker
+                    v-model="filter.value2"
+                    format="dd.MM.yyyy"
+                    :enable-time-picker="false"
+                    text-input
+                    auto-apply
+                    :teleport="true"
+                    input-class-name="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-800 focus:border-transparent"
+                  />
+                </div>
 
-              <!-- Remove Button -->
-              <div class="pt-7">
+                <!-- Remove Button -->
                 <button
                   @click="removeFilter(index)"
-                  class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition duration-200"
+                  class="px-3 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition"
                   title="Уклони филтер"
                 >
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
@@ -255,7 +272,7 @@
             <!-- Add Filter Button -->
             <button
               @click="addFilter"
-              class="w-full py-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-blue-500 hover:text-blue-700 transition duration-200 flex items-center justify-center gap-2"
+              class="mt-4 w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-purple-500 hover:text-blue-700 transition flex items-center justify-center gap-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -265,25 +282,25 @@
           </div>
 
           <!-- Footer -->
-          <div class="p-6 border-t border-gray-200 flex justify-between">
+          <div class="p-6 border-t bg-gray-50 flex items-center justify-between">
             <button
               @click="resetAdvancedFilters"
-              class="px-6 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition duration-200"
+              class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
             >
-              Ресетуј све
+              Ресетуј филтере
             </button>
             <div class="flex gap-3">
               <button
                 @click="closeAdvancedSearch"
-                class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200"
+                class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"
               >
                 Откажи
               </button>
               <button
                 @click="applyAdvancedSearch"
-                class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition duration-200"
+                class="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition"
               >
-                Примени
+                Примени претрагу
               </button>
             </div>
           </div>
@@ -333,6 +350,10 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
+import SifarnikSelect from '@/components/SifarnikSelect.vue';
+import { useSifarnikFilters } from '@/composables/useSifarnikFilters';
+
+const { loadSifarnici, isSifarnikField, getSifarnikOptions } = useSifarnikFilters(['status_zalbe']);
 
 const data = ref([]);
 const searchQuery = ref('');
@@ -365,7 +386,10 @@ const resetFilters = () => {
 };
 
 // Advanced Search functions
-const openAdvancedSearch = () => {
+const openAdvancedSearch = async () => {
+  // Sifarnici se ucitavaju tek kad zatrebaju, da bi vrednosti mogle da se biraju iz liste
+  await loadSifarnici();
+
   // Restore previously applied filters if they exist
   if (activeAdvancedFilters.value.length > 0) {
     advancedFilters.value = JSON.parse(JSON.stringify(activeAdvancedFilters.value));
@@ -389,17 +413,24 @@ const removeFilter = (index) => {
 
 const getFieldType = (field) => {
   const dateFields = ['datum_prijema_odluke_us', 'datum_prijema_zalbe', 'datum_prijema_tuzbe_od_us', 'datum_ekspedicije_odgovora_zk'];
-  return dateFields.includes(field) ? 'date' : 'text';
+  if (dateFields.includes(field)) return 'date';
+  if (isSifarnikField(field)) return 'sifarnik';
+  return 'text';
 };
 
 const onFieldChange = (index) => {
   advancedFilters.value[index].operator = '';
-  advancedFilters.value[index].value = '';
-  advancedFilters.value[index].value2 = '';
+  advancedFilters.value[index].value = null;
+  advancedFilters.value[index].value2 = null;
 };
 
 const applyAdvancedSearch = () => {
-  activeAdvancedFilters.value = advancedFilters.value.filter(f => f.field && f.operator);
+  activeAdvancedFilters.value = advancedFilters.value.filter(f => {
+    if (!f.field || !f.operator) return false;
+    // Operatori bez vrednosti su sami po sebi kompletni
+    if (['is_null', 'is_not_null'].includes(f.operator)) return true;
+    return f.value !== null && f.value !== undefined && f.value !== '';
+  });
   showAdvancedSearch.value = false;
   fetchData(1);
 };

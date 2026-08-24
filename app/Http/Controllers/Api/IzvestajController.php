@@ -1742,6 +1742,213 @@ class IzvestajController extends Controller
     }
 
     /**
+     * Godisnji izvestaj
+     */
+    public function godisnjiIzvestaj(Request $request)
+    {
+        $query = $this->buildGodisnjiIzvestajQuery($request);
+
+        // Sorting
+        $sortBy = $request->input('sort_by', 'z.datum_resavanja_na_zk');
+        $sortDirection = $request->input('sort_direction', 'desc');
+
+        // Allowed sortable fields
+        $allowedSortFields = [
+            'pz.institucija_podnosioca_zalbe',
+            'soz.osnov_zalbe',
+            'str.tip_resenja',
+            'z.datum_prijema_zalbe',
+            'z.datum_resavanja_na_zk',
+            'z.status_zalbe'
+        ];
+
+        if (in_array($sortBy, $allowedSortFields)) {
+            $query->orderBy($sortBy, $sortDirection);
+        } else {
+            $query->orderBy('z.datum_resavanja_na_zk', 'desc');
+        }
+
+        $data = $query->paginate(10);
+
+        return response()->json($data);
+    }
+
+    /**
+     * Build base query for godisnji izvestaj (search + advanced filters)
+     */
+    private function buildGodisnjiIzvestajQuery(Request $request)
+    {
+        $query = DB::table('zalbe as z')
+            ->join('podnosioci_zalbi as pz', 'z.podnosioci_zalbe', '=', 'pz.id')
+            ->leftJoin('sifarnik_osnov_zalbe as soz', 'z.osnov_zalbe', '=', 'soz.id')
+            ->leftJoin('sifarnik_tipovi_resenja as str', 'z.tipovi_resenja', '=', 'str.id')
+            ->select(
+                'pz.institucija_podnosioca_zalbe',
+                'soz.osnov_zalbe',
+                'str.tip_resenja',
+                'z.datum_prijema_zalbe',
+                'z.datum_resavanja_na_zk',
+                'z.status_zalbe'
+            );
+
+        // Simple search
+        if ($request->has('search') && $request->search) {
+            $searchTerm = '%' . $request->search . '%';
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('pz.institucija_podnosioca_zalbe', 'LIKE', $searchTerm)
+                    ->orWhere('soz.osnov_zalbe', 'LIKE', $searchTerm)
+                    ->orWhere('str.tip_resenja', 'LIKE', $searchTerm)
+                    ->orWhere('z.status_zalbe', 'LIKE', $searchTerm);
+            });
+        }
+
+        // Advanced filters
+        $advancedFilters = $request->input('advanced_filters');
+        if ($advancedFilters && is_string($advancedFilters)) {
+            $advancedFilters = json_decode($advancedFilters, true);
+        }
+
+        if (is_array($advancedFilters) && count($advancedFilters) > 0) {
+            $fieldMap = [
+                'institucija_podnosioca_zalbe' => 'pz.institucija_podnosioca_zalbe',
+                'osnov_zalbe' => 'soz.osnov_zalbe',
+                'tip_resenja' => 'str.tip_resenja',
+                'datum_prijema_zalbe' => 'z.datum_prijema_zalbe',
+                'datum_resavanja_na_zk' => 'z.datum_resavanja_na_zk',
+                'status_zalbe' => 'z.status_zalbe'
+            ];
+
+            foreach ($advancedFilters as $filter) {
+                if (isset($filter['field']) && isset($filter['operator'])) {
+                    $field = $fieldMap[$filter['field']] ?? null;
+                    if ($field) {
+                        $value = $filter['value'] ?? null;
+                        $value2 = $filter['value2'] ?? null;
+                        $this->applyAdvancedFilterGodisnji($query, $field, $filter['operator'], $value, $value2);
+                    }
+                }
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Apply advanced filter for godisnji izvestaj
+     */
+    private function applyAdvancedFilterGodisnji($query, $field, $operator, $value, $value2 = null)
+    {
+        switch ($operator) {
+            case 'equals':
+                $query->where($field, '=', $value);
+                break;
+            case 'not_equals':
+                $query->where($field, '!=', $value);
+                break;
+            case 'contains':
+                $query->where($field, 'LIKE', '%' . $value . '%');
+                break;
+            case 'starts_with':
+                $query->where($field, 'LIKE', $value . '%');
+                break;
+            case 'ends_with':
+                $query->where($field, 'LIKE', '%' . $value);
+                break;
+            case 'greater_than':
+                $query->where($field, '>', $value);
+                break;
+            case 'less_than':
+                $query->where($field, '<', $value);
+                break;
+            case 'greater_or_equal':
+                $query->where($field, '>=', $value);
+                break;
+            case 'less_or_equal':
+                $query->where($field, '<=', $value);
+                break;
+            case 'between':
+                if ($value && $value2) {
+                    $query->whereBetween($field, [$value, $value2]);
+                }
+                break;
+            case 'is_null':
+                $query->whereNull($field);
+                break;
+            case 'is_not_null':
+                $query->whereNotNull($field);
+                break;
+        }
+    }
+
+    /**
+     * Get export query for godisnji izvestaj
+     */
+    private function getGodisnjiIzvestajQuery(Request $request)
+    {
+        return $this->buildGodisnjiIzvestajQuery($request)
+            ->orderBy('z.datum_resavanja_na_zk', 'desc');
+    }
+
+    /**
+     * Export godisnji izvestaj to Excel
+     */
+    public function exportGodisnjiIzvestajExcel(Request $request)
+    {
+        $data = $this->getGodisnjiIzvestajQuery($request)->get();
+
+        return Excel::download(new class($data) implements FromCollection, WithHeadings {
+            protected $data;
+
+            public function __construct($data)
+            {
+                $this->data = $data;
+            }
+
+            public function collection()
+            {
+                return $this->data->map(function ($item) {
+                    return [
+                        'Институција' => $item->institucija_podnosioca_zalbe ?? '',
+                        'Основ жалбе' => $item->osnov_zalbe ?? '',
+                        'Тип решења' => $item->tip_resenja ?? '',
+                        'Датум пријема жалбе' => $item->datum_prijema_zalbe ? date('d.m.Y', strtotime($item->datum_prijema_zalbe)) : '',
+                        'Датум решавања на ЖК' => $item->datum_resavanja_na_zk ? date('d.m.Y', strtotime($item->datum_resavanja_na_zk)) : '',
+                        'Статус жалбе' => $item->status_zalbe ?? ''
+                    ];
+                });
+            }
+
+            public function headings(): array
+            {
+                return [
+                    'Институција',
+                    'Основ жалбе',
+                    'Тип решења',
+                    'Датум пријема жалбе',
+                    'Датум решавања на ЖК',
+                    'Статус жалбе'
+                ];
+            }
+        }, 'godisnji-izvestaj-' . date('Y-m-d') . '.xlsx');
+    }
+
+    /**
+     * Export godisnji izvestaj to PDF
+     */
+    public function exportGodisnjiIzvestajPdf(Request $request)
+    {
+        set_time_limit(480);
+        ini_set('memory_limit', '1024M');
+
+        $data = $this->getGodisnjiIzvestajQuery($request)->get();
+
+        $pdf = Pdf::loadView('pdf.godisnji-izvestaj', compact('data'));
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->download('godisnji-izvestaj-' . date('Y-m-d') . '.pdf');
+    }
+
+    /**
      * Export zalbe to PDF (optimized for large datasets)
      */
     public function exportZalbePdf(Request $request)
