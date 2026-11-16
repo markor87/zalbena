@@ -34,7 +34,7 @@ class PodnosiocZalbeController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'datum_unosa');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [

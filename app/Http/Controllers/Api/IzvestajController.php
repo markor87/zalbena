@@ -245,7 +245,7 @@ class IzvestajController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'z.datum_prijema_zalbe');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [
@@ -518,7 +518,7 @@ class IzvestajController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'z.datum_prijema_zalbe');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [
@@ -789,7 +789,7 @@ class IzvestajController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'z.datum_ekspedicije_ds_organu');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [
@@ -1055,7 +1055,7 @@ class IzvestajController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'z.datum_ekspedicije_odgovora_zk');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [
@@ -1331,7 +1331,7 @@ class IzvestajController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'z.datum_prijema_odluke_us');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [
@@ -1750,7 +1750,7 @@ class IzvestajController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'z.datum_resavanja_na_zk');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
         // Allowed sortable fields
         $allowedSortFields = [

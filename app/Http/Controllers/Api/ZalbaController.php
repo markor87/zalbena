@@ -53,18 +53,18 @@ class ZalbaController extends Controller
 
         // Sorting
         $sortBy = $request->input('sort_by', 'datum_unosa');
-        $sortDirection = $request->input('sort_direction', 'desc');
+        $sortDirection = $this->sortDirection($request);
 
-        // Allowed sortable fields (security: prevent SQL injection)
+        // Allowed sortable fields (security: prevent SQL injection).
+        // Samo kolone koje stvarno postoje u tabeli zalbe - ranije su ovde bila
+        // i imena datum_resavanja, broj_presude i datum_ekspedicije, kojih nema,
+        // pa bi zahtev sa njima prosao belu listu i srusio upit.
         $allowedSortFields = [
             'prijemni_broj',
             'broj_resenja',
             'datum_prijema_zalbe',
-            'datum_resavanja',
-            'datum_unosa',
             'status_zalbe',
-            'broj_presude',
-            'datum_ekspedicije'
+            'datum_unosa'
         ];
 
         if (in_array($sortBy, $allowedSortFields)) {
