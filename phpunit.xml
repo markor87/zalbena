@@ -33,7 +33,10 @@
              da krenu ka drugom serveru; lozinka se cita iz .env-a preko
              DB_TEST_PASSWORD, da ne stoji u gitu. DB_DATABASE se ponavlja
              ovde jer ga TestCase cita iz okruzenja, pre nego sto se
-             aplikacija napravi, i odbija da radi ako ne zavrsava na _test. -->
+             aplikacija napravi, i odbija da radi ako ne zavrsava na _test.
+             RefreshDatabase pokrece migrate:fresh nad ovom bazom, sto je
+             dozvoljeno jer je lokalna i testna; AppServiceProvider odbija
+             istu komandu prema svakom drugom cilju. -->
         <env name="DB_CONNECTION" value="mariadb_test"/>
         <env name="DB_DATABASE" value="zalbena_test"/>
         <env name="MAIL_MAILER" value="array"/>

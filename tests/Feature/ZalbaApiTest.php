@@ -5,12 +5,12 @@ namespace Tests\Feature;
 use App\Models\PodnosiocZalbe;
 use App\Models\User;
 use App\Models\Zalba;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ZalbaApiTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     private User $user;
 
