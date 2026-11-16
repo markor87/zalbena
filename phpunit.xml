@@ -27,14 +27,15 @@
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="BROADCAST_CONNECTION" value="null"/>
         <env name="CACHE_STORE" value="array"/>
-        <!-- Testovi idu na zasebnu MySQL bazu, da bi shema bila ista kao
-             produkciona (sqlite se razlikuje u tipovima, CONCAT-u i sortiranju
-             cirilice). Host, port i kredencijali se uzimaju iz .env, menja se
-             samo ime baze. TestCase odbija da radi ako ime ne zavrsava na
-             _test, da RefreshDatabase nikada ne obrise pravu bazu. -->
-        <env name="DB_CONNECTION" value="mysql"/>
+        <!-- Testovi idu na konekciju mariadb_test, definisanu u
+             config/database.php: lokalni MariaDB (127.0.0.1), baza
+             zalbena_test. Host i nalog su tamo upisani, pa testovi ne mogu
+             da krenu ka drugom serveru; lozinka se cita iz .env-a preko
+             DB_TEST_PASSWORD, da ne stoji u gitu. DB_DATABASE se ponavlja
+             ovde jer ga TestCase cita iz okruzenja, pre nego sto se
+             aplikacija napravi, i odbija da radi ako ne zavrsava na _test. -->
+        <env name="DB_CONNECTION" value="mariadb_test"/>
         <env name="DB_DATABASE" value="zalbena_test"/>
-        <env name="DB_COLLATION" value="utf8mb4_general_ci"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>

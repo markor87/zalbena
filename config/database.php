@@ -83,6 +83,29 @@ return [
             ]) : [],
         ],
 
+        /*
+         * Konekcija koju koriste isklucivo testovi.
+         *
+         * Host, port, baza i nalog su namerno upisani, a ne citani iz .env-a,
+         * da testovi ne mogu da krenu ka drugom serveru ni ako .env promeni
+         * vrednosti. Iz okruzenja se uzima samo lozinka, da ne stoji u gitu.
+         */
+        'mariadb_test' => [
+            'driver' => 'mariadb',
+            'host' => '127.0.0.1',
+            'port' => '3306',
+            'database' => 'zalbena_test',
+            'username' => 'zalbena_test',
+            'password' => env('DB_TEST_PASSWORD', ''),
+            'unix_socket' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_general_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),

@@ -9,8 +9,8 @@ abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
-        // Mora pre parent::setUp(): RefreshDatabase pokrece migrate:fresh
-        // unutar parent::setUp(), pa provera posle toga ne bi nista spasila.
+        // Mora pre parent::setUp(): tu se pravi aplikacija i otvara veza sa
+        // bazom, pa provera posle toga ne bi nista spasila.
         $this->proveriTestnuBazu();
 
         parent::setUp();
@@ -25,11 +25,11 @@ abstract class TestCase extends BaseTestCase
     /**
      * Zastita od brisanja prave baze.
      *
-     * RefreshDatabase radi migrate:fresh, sto na MySQL-u znaci DROP svih
-     * tabela u konfigurisanoj bazi. Ako phpunit.xml ostane bez DB_DATABASE
-     * override-a, ime baze se cita iz .env-a - dakle iz produkcije. Zato se
+     * Testovi upisuju i brisu redove. Ako phpunit.xml ostane bez DB_DATABASE
+     * override-a, ime baze se cita iz .env-a - dakle iz prave baze. Zato se
      * ime trazi iskljucivo iz okruzenja u kome su testovi pokrenuti i mora
-     * izgledati kao testno.
+     * izgledati kao testno. Razorne artisan komande su zasebno ogranicene,
+     * u AppServiceProvider-u.
      */
     private function proveriTestnuBazu(): void
     {

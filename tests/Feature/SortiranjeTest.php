@@ -7,7 +7,7 @@ use App\Models\SifarnikTipPresude;
 use App\Models\SifarnikTipResenja;
 use App\Models\User;
 use App\Models\Zalba;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -24,7 +24,7 @@ use Tests\TestCase;
  */
 class SortiranjeTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     private User $user;
 
