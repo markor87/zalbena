@@ -1566,8 +1566,8 @@ class IzvestajController extends Controller
                         WHEN pz.institucija_podnosioca_zalbe LIKE '%санкц%' THEN 4
                         ELSE 5
                     END AS ord
-                FROM zalbena.zalbe z
-                JOIN zalbena.podnosioci_zalbi pz ON z.podnosioci_zalbe = pz.id
+                FROM zalbe z
+                JOIN podnosioci_zalbi pz ON z.podnosioci_zalbe = pz.id
                 WHERE z.tipovi_presude_us = 3
                 GROUP BY
                     CASE
@@ -1668,7 +1668,7 @@ class IzvestajController extends Controller
                 SELECT
                     YEAR(z.datum_prijema_zalbe) AS god_num,
                     z.id
-                FROM zalbena.zalbe z
+                FROM zalbe z
                 WHERE z.tipovi_presude_us = 3
             ),
             grupisano AS (
